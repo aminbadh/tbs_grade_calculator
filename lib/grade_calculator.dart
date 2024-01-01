@@ -5,6 +5,21 @@ class GradeCalculator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SizedBox();
+    return Column(
+      children: [
+        const SizedBox(height: 12 * 2),
+        Opacity(
+          opacity: .7, // TODO - Make this part of the Theme
+          child: TextField(
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.displaySmall,
+            decoration: const InputDecoration(
+              hintText: 'Untitled',
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
