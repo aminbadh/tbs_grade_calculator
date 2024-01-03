@@ -42,12 +42,58 @@ class CourseCard extends StatelessWidget {
         child: Column(
           children: [
             TextField(
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.titleLarge,
               decoration: const InputDecoration(
                 isDense: true,
                 hintText: 'Course Title',
                 border: InputBorder.none,
               ),
+            ),
+            TextField(
+              style: Theme.of(context).textTheme.bodyMedium,
+              decoration: const InputDecoration(
+                isDense: true,
+                hintText: 'Course Code',
+                border: InputBorder.none,
+              ),
+            ),
+            const Divider(),
+            const Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'mark',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'max',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        'weight',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.delete_outline),
+                  tooltip: 'Remove',
+                )
+              ],
             ),
           ],
         ),
