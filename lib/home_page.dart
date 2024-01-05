@@ -12,13 +12,14 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100], //FIXME - hardcoded
+      backgroundColor: Colors.grey[100],
       body: CustomScrollView(
         slivers: [
           SliverFillRemaining(
             hasScrollBody: false,
             child: Column(
               children: [
+                //TODO - Navbar
                 Card(
                   margin: const EdgeInsets.symmetric(vertical: 16),
                   color: Theme.of(context).colorScheme.primaryContainer,
