@@ -7,55 +7,75 @@ import 'grade_calculator.dart';
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  final padding = 12.0 * 4;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: CustomScrollView(
-        slivers: [
-          SliverFillRemaining(
-            hasScrollBody: false,
-            child: Column(
-              children: [
-                //TODO - Navbar
-                Card(
-                  margin: const EdgeInsets.symmetric(vertical: 16),
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width - padding,
-                    height: 80,
-                  ),
-                ),
-                const Expanded(child: GradeCalculator()),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 16,
-                    horizontal: padding,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Wrap(
-                        spacing: 6,
-                        children: [
-                          const Text('Made with'),
-                          Icon(
-                            Icons.favorite,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 18,
-                          ),
-                          const Text('Flutter'),
-                        ],
-                      ),
-                      const FooterVersion(),
-                    ],
-                  ),
-                ),
-              ],
+      body: const Column(
+        children: [
+          Navbar(),
+          Expanded(
+            child: SingleChildScrollView(
+              child: GradeCalculator(),
             ),
           ),
+          Footer(),
+        ],
+      ),
+    );
+  }
+}
+
+class Navbar extends StatelessWidget {
+  const Navbar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 80, //FIXME - Padding
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.background,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            offset: Offset(0.0, 1.0),
+            blurRadius: 6.0,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Footer extends StatelessWidget {
+  const Footer({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return const Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: 16,
+        horizontal: 48,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Text('Made with '),
+              Icon(
+                Icons.favorite,
+                color: Colors.amber,
+                size: 18,
+              ),
+              Text(' Flutter'),
+            ],
+          ),
+          FooterVersion(),
         ],
       ),
     );
@@ -80,13 +100,11 @@ class FooterVersion extends StatelessWidget {
         cursor: SystemMouseCursors.click,
         child: GestureDetector(
           onTap: () => launchUrl(Uri.parse(_source)),
-          child: Text(
-            "v${text.data ?? ''}",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.primary,
-            ),
-          ),
+          child: Text("v${text.data ?? ''}",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+              )),
         ),
       ),
     );
