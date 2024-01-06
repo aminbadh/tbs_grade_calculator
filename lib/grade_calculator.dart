@@ -3,44 +3,40 @@ import 'package:flutter/material.dart';
 class GradeCalculator extends StatelessWidget {
   const GradeCalculator({super.key});
 
-  static const double sep = 12 * 2;
-
   @override
   Widget build(BuildContext context) {
-    var rows = (MediaQuery.of(context).size.width - 100) / CourseCard.width;
-    if (--rows < 1) rows = 1;
-    var rowCh = <Widget>[];
+    final children = [
+      const SizedBox(height: 48),
+      const GradeTitle(),
+      const SizedBox(height: 24),
+    ];
 
-    for (var i = 0; i < rows; i++) {
-      rowCh.add(
-        Column(
-          children: [
-            CourseCard(),
-          ],
-        ),
-      );
+    if (MediaQuery.of(context).size.width - 144 > CourseCard.width * 2) {
+      children.add(const Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          CourseCard(),
+          CourseCard(),
+        ],
+      ));
+    } else {
+      children.add(const CourseCard());
     }
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        children: [
-          SizedBox(height: sep),
-          DocTitle(),
-          SizedBox(height: sep),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: rowCh,
-          ),
-        ],
+    return SizedBox(
+      width: 1200,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          children: children,
+        ),
       ),
     );
   }
 }
 
-//TODO - Add opacity factor
-class DocTitle extends StatelessWidget {
-  const DocTitle({
+class GradeTitle extends StatelessWidget {
+  const GradeTitle({
     super.key,
   });
 
@@ -68,84 +64,95 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      child: Card(
-        surfaceTintColor: Colors.white, //FIXME - hardcoded
-        elevation: 2,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Column(
-            children: [
-              Row(children: [
-                Expanded(
-                  child: TextField(
-                    style: Theme.of(context).textTheme.titleLarge,
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      hintText: 'Course Title',
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ),
-                Text(
-                  '3',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                Icon(
-                  Icons.bolt,
-                  color: Theme.of(context).colorScheme.tertiary,
-                ),
-              ]),
-              const Divider(),
-              const Column(children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'mark',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'max',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                      Expanded(
-                        child: Text(
-                          'weight',
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ]),
-              const Divider(),
-              Row(
-                children: [
-                  SizedBox(width: 12),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: SizedBox(
+        width: width,
+        child: Card(
+          surfaceTintColor: Colors.white, //FIXME - hardcoded
+          elevation: 2,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.grey.withOpacity(0.3),
+            ),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(12),
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Column(
+              children: [
+                Row(children: [
                   Expanded(
-                    child: Text(
-                      'Grade: B+ (84)',
-                      style: TextStyle(
-                        letterSpacing: 1,
-                        fontWeight: FontWeight.w600,
+                    child: TextField(
+                      style: Theme.of(context).textTheme.titleLarge,
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        hintText: 'Course Title',
+                        border: InputBorder.none,
                       ),
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.delete_outline),
-                    tooltip: 'Remove',
-                  )
-                ],
-              ),
-            ],
+                  Text(
+                    '3',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  Icon(
+                    Icons.bolt,
+                    color: Theme.of(context).colorScheme.tertiary,
+                  ),
+                ]),
+                const Divider(),
+                const Column(children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 12),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'mark',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'max',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'weight',
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ]),
+                const Divider(),
+                Row(
+                  children: [
+                    const SizedBox(width: 12),
+                    const Expanded(
+                      child: Text(
+                        'Grade: B+ (84)',
+                        style: TextStyle(
+                          letterSpacing: 1,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(Icons.delete_outline),
+                      tooltip: 'Remove',
+                    )
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
