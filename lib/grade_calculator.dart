@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 
+import 'course.dart';
+
 class GradeCalculator extends StatelessWidget {
   const GradeCalculator({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final courses = <Course>[
+      Course(),
+      Course(),
+      Course(),
+      Course(),
+      Course(),
+    ];
+
     final children = [
       const SizedBox(height: 48),
       const GradeTitle(),
       const SizedBox(height: 24),
     ];
 
-    if (MediaQuery.of(context).size.width - 144 > CourseCard.width * 2) {
+    if (MediaQuery.of(context).size.width > CourseCard.width * 2 + 144) {
       children.add(const Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -20,7 +30,9 @@ class GradeCalculator extends StatelessWidget {
         ],
       ));
     } else {
-      children.add(const CourseCard());
+      for (var course in courses) {
+        children.add(CourseCard(course: course));
+      }
     }
 
     return SizedBox(
@@ -54,117 +66,29 @@ class GradeTitle extends StatelessWidget {
 }
 
 class CourseCard extends StatelessWidget {
-  const CourseCard({
-    super.key,
-    this.delete,
-  });
+  const CourseCard({super.key, this.course});
 
   static const double width = 12 * 12 * 3;
-  final Function? delete; //FIXME - required
+  final Course? course;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      child: SizedBox(
-        width: width,
-        child: Card(
-          surfaceTintColor: Colors.white, //FIXME - hardcoded
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              color: Colors.grey.withOpacity(0.3),
+    return Opacity(
+      opacity: 0.7,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12),
+        child: SizedBox(
+          width: width,
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.white, //FIXME - hardcoded,
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(12),
             ),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(12),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            child: Column(
-              children: [
-                Row(children: [
-                  Expanded(
-                    child: TextField(
-                      style: Theme.of(context).textTheme.titleLarge,
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        hintText: 'Course Title',
-                        border: InputBorder.none,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    '3',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Icon(
-                    Icons.bolt,
-                    color: Theme.of(context).colorScheme.tertiary,
-                  ),
-                ]),
-                const Divider(),
-                const Column(children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'mark',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            'max',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Expanded(
-                          child: Text(
-                            'weight',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ]),
-                const Divider(),
-                Row(
-                  children: [
-                    const SizedBox(width: 12),
-                    const Expanded(
-                      child: Text(
-                        'Grade: B+ (84)',
-                        style: TextStyle(
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.delete_outline),
-                      tooltip: 'Remove',
-                    )
-                  ],
-                ),
-              ],
-            ),
+            height: 200,
           ),
         ),
       ),
     );
   }
 }
-
-/*TextField(
-  style: Theme.of(context).textTheme.bodyMedium,
-  decoration: const InputDecoration(
-    isDense: true,
-    hintText: 'Course Code',
-    border: InputBorder.none,
-  ),
-),*/
