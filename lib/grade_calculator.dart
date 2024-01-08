@@ -16,9 +16,10 @@ class GradeCalculator extends StatelessWidget {
     ];
 
     final children = [
-      const SizedBox(height: 48),
+      const SizedBox(height: 38 + 80),
       const GradeTitle(),
       const SizedBox(height: 24),
+      const SizedBox(height: 60),
     ];
 
     if (MediaQuery.of(context).size.width > CourseCard.width * 2 + 144) {
@@ -31,7 +32,7 @@ class GradeCalculator extends StatelessWidget {
       ));
     } else {
       for (var course in courses) {
-        children.add(CourseCard(course: course));
+        children.insert(3, CourseCard(course: course));
       }
     }
 
