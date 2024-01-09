@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'course.dart';
+import 'course_card.dart';
 
 class GradeCalculator extends StatelessWidget {
   const GradeCalculator({super.key});
@@ -23,25 +24,41 @@ class GradeCalculator extends StatelessWidget {
     ];
 
     if (MediaQuery.of(context).size.width > CourseCard.width * 2 + 144) {
-      children.add(const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          CourseCard(),
-          CourseCard(),
-        ],
-      ));
+      children.insert(
+          3,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Column(
+                children: [
+                  for (int i = 0; i < courses.length; i += 2)
+                    CourseCard(course: courses[i])
+                ],
+              ),
+              Column(
+                children: [
+                  for (int i = 1; i < courses.length; i += 2)
+                    CourseCard(course: courses[i]),
+                  if (courses.length % 2 == 1) const AddCard(),
+                ],
+              ),
+            ],
+          ));
     } else {
       for (var course in courses) {
         children.insert(3, CourseCard(course: course));
       }
     }
 
-    return SizedBox(
-      width: 1200,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          children: children,
+    return Center(
+      child: SizedBox(
+        width: 1200,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: children,
+          ),
         ),
       ),
     );
@@ -55,22 +72,27 @@ class GradeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      textAlign: TextAlign.center,
-      style: Theme.of(context).textTheme.displaySmall,
-      decoration: const InputDecoration(
-        hintText: 'Untitled',
-        border: InputBorder.none,
+    // constraints: const BoxConstraints(minWidth: 200, maxWidth: 500),
+    return IntrinsicWidth(
+      child: TextField(
+        textAlign: TextAlign.center,
+        style: Theme.of(context).textTheme.displaySmall,
+        decoration: const InputDecoration(
+          hintText: 'Untitled',
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black12, width: 0),
+          ),
+          border: OutlineInputBorder(),
+        ),
       ),
     );
   }
 }
 
-class CourseCard extends StatelessWidget {
-  const CourseCard({super.key, this.course});
+class AddCard extends StatelessWidget {
+  const AddCard({super.key});
 
   static const double width = 12 * 12 * 3;
-  final Course? course;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +109,17 @@ class CourseCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             height: 200,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(12),
+              onTap: () {},
+              child: const Center(
+                child: Icon(
+                  Icons.add_rounded,
+                  color: Colors.black38,
+                  size: 64,
+                ),
+              ),
+            ),
           ),
         ),
       ),
