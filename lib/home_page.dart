@@ -13,17 +13,24 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: const SizedBox.expand(
+      body: SizedBox.expand(
         child: Stack(
           children: [
-            Positioned.fill(
+            const Positioned.fill(
               child: SingleChildScrollView(
                 child: GradeCalculator(),
               ),
             ),
-            // can add 10px to the right to count for the scrollbar
-            Positioned(bottom: 0, left: 0, right: 0, child: Footer()),
-            Positioned(top: 0, left: 0, right: 0, child: Navbar()),
+            Positioned(
+              right: 24,
+              bottom: 72,
+              child: FloatingActionButton(
+                onPressed: () {},
+                child: const Icon(Icons.add_rounded),
+              ),
+            ),
+            const Positioned(bottom: 0, left: 0, right: 0, child: Footer()),
+            const Positioned(top: 0, left: 0, right: 0, child: Navbar()),
           ],
         ),
       ),
