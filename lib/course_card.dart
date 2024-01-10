@@ -9,7 +9,7 @@ class CourseCard extends StatelessWidget {
     this.delete,
   });
 
-  static const double width = 12 * 12 * 3;
+  static const double width = 12 * 12 * 3.5;
   final Course? course;
   final Function? delete; //FIXME - required
 
@@ -17,138 +17,207 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
-      child: SizedBox(
-        width: width,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white, //FIXME - hardcoded
-            border: Border.all(color: Colors.black26),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      child: Container(
+        constraints: const BoxConstraints(maxWidth: width),
+        decoration: BoxDecoration(
+          color: Colors.white, //FIXME - hardcoded
+          border: Border.all(color: Colors.black26),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: TextField(
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleMedium
+                          ?.copyWith(fontSize: 20),
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        hintText: 'Course Name',
+                        border: OutlineInputBorder(),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Colors.transparent,
+                            width: 0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 24),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Container(
-                        constraints: BoxConstraints(maxWidth: 12 * 12 * 2),
-                        child: IntrinsicWidth(
-                          child: TextField(
-                            style: Theme.of(context).textTheme.titleLarge,
-                            decoration: const InputDecoration(
-                              isDense: true,
-                              hintText: 'Course Title',
-                              border: OutlineInputBorder(),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Colors.transparent,
-                                  width: 0,
-                                ),
+                      SizedBox(
+                        width: 72,
+                        child: TextField(
+                          style: Theme.of(context).textTheme.bodyLarge,
+                          decoration: const InputDecoration(
+                            hintText: '3',
+                            isDense: true,
+                            border: OutlineInputBorder(),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.black12,
+                                width: 0,
                               ),
+                            ),
+                            suffixIcon: Icon(
+                              size: 24,
+                              Icons.bolt,
+                              color: Colors.amber,
                             ),
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SizedBox(
-                            width: 72,
-                            child: TextField(
-                              style: Theme.of(context).textTheme.bodyLarge,
-                              decoration: const InputDecoration(
-                                hintText: '3',
-                                isDense: true,
-                                border: OutlineInputBorder(),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Colors.black12,
-                                    width: 0,
-                                  ),
-                                ),
-                                suffixIcon: Icon(
-                                  size: 24,
-                                  Icons.bolt,
-                                  color: Colors.amber,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
                     ],
-                  ),
-                ),
-                const SizedBox(height: 8),
-                const Divider(
-                  color: Colors.black12,
-                ),
-                Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'mark',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'max',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Expanded(
-                            child: Text(
-                              'weight',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 12),
-                    Divider(
-                      color: Colors.black.withOpacity(0.1),
-                    ),
-                    Center(
-                      child: Text('Add'),
-                    )
-                  ],
-                ),
-                const Divider(),
-                Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 12),
-                      const Expanded(
-                        child: Text(
-                          'Grade: B+ (84)',
-                          style: TextStyle(
-                            letterSpacing: 1,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Icons.delete_outline),
-                        tooltip: 'Remove',
-                      )
-                    ],
-                  ),
-                ),
-              ],
+                  )
+                ],
+              ),
             ),
-          ),
+            const Divider(
+              color: Colors.black12,
+              height: 1,
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              child: Column(
+                children: [
+                  Opacity(
+                    opacity: 0.7,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Mark',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Max',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        Expanded(
+                          child: Text(
+                            'Weight',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                        ),
+                        InkWell(
+                          //TODO - onTap
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 4),
+                            child: Icon(Icons.add_rounded, size: 20),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  MarkRow(),
+                ],
+              ),
+            ),
+            const Divider(
+              color: Colors.black12,
+              height: 1,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              child: Row(
+                children: [
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      'Grade: A (92.16)',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.delete_outline),
+                    tooltip: 'Remove',
+                  )
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MarkRow extends StatelessWidget {
+  const MarkRow({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
+      child: Opacity(
+        opacity: 0.7,
+        child: Row(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: TextField(
+                  style: TextStyle(fontSize: 14),
+                  decoration: const InputDecoration(
+                    isCollapsed: true,
+                    hintText: '100',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: TextField(
+                  style: TextStyle(fontSize: 14),
+                  decoration: const InputDecoration(
+                    isCollapsed: true,
+                    hintText: '100',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: TextField(
+                  style: TextStyle(fontSize: 14),
+                  decoration: const InputDecoration(
+                    isCollapsed: true,
+                    hintText: '100',
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+            ),
+            InkWell(
+              //TODO - onTap
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 4),
+                child: Icon(Icons.remove_rounded, size: 20),
+              ),
+            ),
+          ],
         ),
       ),
     );
