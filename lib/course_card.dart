@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'course.dart';
+import 'document_state.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
     super.key,
-    this.course,
-    this.delete,
+    required this.course,
   });
 
   static const double width = 12 * 12 * 3.5;
-  final Course? course;
-  final Function? delete; //FIXME - required
+
+  final Course course;
 
   @override
   Widget build(BuildContext context) {
+    final docState = context.watch<DocState>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Container(
@@ -146,7 +149,7 @@ class CourseCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () => docState.remove(course),
                     icon: const Icon(Icons.delete_outline),
                     tooltip: 'Remove',
                   )

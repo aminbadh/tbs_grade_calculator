@@ -2,8 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import 'document_state.dart';
 import 'grade_calculator.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,6 +13,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final docState = context.watch<DocState>();
+
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: SizedBox.expand(
@@ -25,7 +29,7 @@ class HomePage extends StatelessWidget {
               right: 24,
               bottom: 72,
               child: FloatingActionButton(
-                onPressed: () {},
+                onPressed: docState.add,
                 child: const Icon(Icons.add_rounded),
               ),
             ),
