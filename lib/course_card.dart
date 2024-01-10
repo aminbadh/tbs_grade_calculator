@@ -58,9 +58,11 @@ class CourseCard extends StatelessWidget {
                         width: 72,
                         child: TextField(
                           style: Theme.of(context).textTheme.bodyLarge,
+                          maxLength: 1,
                           decoration: const InputDecoration(
                             hintText: '3',
                             isDense: true,
+                            counterText: '',
                             border: OutlineInputBorder(),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -165,60 +167,60 @@ class MarkRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: Opacity(
-        opacity: 0.7,
-        child: Row(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: TextField(
-                  style: TextStyle(fontSize: 14),
-                  decoration: const InputDecoration(
-                    isCollapsed: true,
-                    hintText: '100',
-                    border: InputBorder.none,
-                  ),
+    return const Padding(
+      padding: EdgeInsets.only(top: 12),
+      child: Row(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              child: TextField(
+                style: TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  hintText: '100',
+                  border: InputBorder.none,
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: TextField(
-                  style: TextStyle(fontSize: 14),
-                  decoration: const InputDecoration(
-                    isCollapsed: true,
-                    hintText: '100',
-                    border: InputBorder.none,
-                  ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              child: TextField(
+                style: TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  hintText: '100',
+                  border: InputBorder.none,
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: TextField(
-                  style: TextStyle(fontSize: 14),
-                  decoration: const InputDecoration(
-                    isCollapsed: true,
-                    hintText: '100',
-                    border: InputBorder.none,
-                  ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 4),
+              child: TextField(
+                style: TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  isCollapsed: true,
+                  hintText: '100',
+                  border: InputBorder.none,
                 ),
               ),
             ),
-            InkWell(
+          ),
+          Opacity(
+            opacity: 0.7,
+            child: InkWell(
               //TODO - onTap
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 4),
                 child: Icon(Icons.remove_rounded, size: 20),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
