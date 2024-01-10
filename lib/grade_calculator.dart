@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tbs_grade_calculator/temp_widgets.dart';
 
 import 'course.dart';
 import 'course_card.dart';
@@ -8,7 +9,7 @@ class GradeCalculator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final courses = [Course(), Course(), Course(), Course(), Course()];
+    final courses = [Course(), Course(), Course(), Course()];
 
     return Center(
       child: SizedBox(
@@ -27,7 +28,8 @@ class GradeCalculator extends StatelessWidget {
                   for (var course in courses) CourseCard(course: course)
                 ],
               ),
-              const SizedBox(height: 60),
+              const DocumentResults(),
+              const SizedBox(height: 60 + 72),
             ],
           ),
         ),

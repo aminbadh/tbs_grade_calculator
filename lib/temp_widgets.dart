@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'course.dart';
 
-class CourseCard extends StatelessWidget {
-  const CourseCard({super.key, this.course});
+class CourseCardTemp extends StatelessWidget {
+  const CourseCardTemp({super.key, this.course});
 
   static const double width = 12 * 12 * 3;
   final Course? course;
@@ -24,6 +24,28 @@ class CourseCard extends StatelessWidget {
             ),
             height: 200,
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class DocumentResults extends StatelessWidget {
+  const DocumentResults({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Opacity(
+      opacity: 0.7,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          height: 84,
         ),
       ),
     );
