@@ -27,7 +27,8 @@ class GradeCalculator extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 spacing: 48,
                 children: [
-                  for (var course in courses) CourseCard(course: course)
+                  for (int i = 0; i < courses.length; i++)
+                    CourseCard(index: i)
                 ],
               ),
               const DocumentResults(),

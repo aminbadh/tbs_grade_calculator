@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
+    print(docState.courses);
 
     return Scaffold(
       backgroundColor: Colors.grey[100],

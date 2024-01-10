@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'course.dart';
 import 'document_state.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard({
     super.key,
-    required this.course,
+    required this.index,
   });
 
   static const double width = 12 * 12 * 3.5;
 
-  final Course course;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
+    final course = docState.courses[index];
+
+    final nameController = TextEditingController(text: course.title);
+    final creditController = TextEditingController(
+        text: (course.credit >= 0) ? course.credit.toString() : '');
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -51,6 +55,10 @@ class CourseCard extends StatelessWidget {
                           ),
                         ),
                       ),
+                      controller: nameController,
+                      onSubmitted: (value) {
+                        course.title = value;
+                      },
                     ),
                   ),
                   const SizedBox(width: 24),
@@ -63,7 +71,7 @@ class CourseCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyLarge,
                           maxLength: 1,
                           decoration: const InputDecoration(
-                            hintText: '3',
+                            hintText: '1',
                             isDense: true,
                             counterText: '',
                             border: OutlineInputBorder(),
@@ -79,6 +87,15 @@ class CourseCard extends StatelessWidget {
                               color: Colors.amber,
                             ),
                           ),
+                          controller: creditController,
+                          onSubmitted: (value) {
+                            try {
+                              course.credit = int.parse(value);
+                            } catch (e) {
+                              course.credit = 0;
+                              creditController.text = 0.toString();
+                            }
+                          },
                         ),
                       ),
                     ],
@@ -149,7 +166,7 @@ class CourseCard extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () => docState.remove(course),
+                    onPressed: () => docState.remove(index),
                     icon: const Icon(Icons.delete_outline),
                     tooltip: 'Remove',
                   )
