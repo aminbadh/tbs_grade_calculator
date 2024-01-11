@@ -20,14 +20,14 @@ class CourseCard extends StatelessWidget {
 
     final nameController = TextEditingController(text: course.title);
     final creditController = TextEditingController(
-        text: (course.credit >= 0) ? course.credit.toString() : '');
+        text: (course.credit >= 0) ? course.credit.toString() : '1');
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Container(
         constraints: const BoxConstraints(maxWidth: width),
         decoration: BoxDecoration(
-          color: Colors.white, //FIXME - hardcoded
+          color: Colors.white,
           border: Border.all(color: Colors.black26),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -56,7 +56,7 @@ class CourseCard extends StatelessWidget {
                         ),
                       ),
                       controller: nameController,
-                      onSubmitted: (value) {
+                      onChanged: (value) {
                         course.title = value;
                       },
                     ),
@@ -71,7 +71,6 @@ class CourseCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyLarge,
                           maxLength: 1,
                           decoration: const InputDecoration(
-                            hintText: '1',
                             isDense: true,
                             counterText: '',
                             border: OutlineInputBorder(),
@@ -88,7 +87,11 @@ class CourseCard extends StatelessWidget {
                             ),
                           ),
                           controller: creditController,
-                          onSubmitted: (value) {
+                          onChanged: (value) {
+                            if (value.isEmpty) {
+                              course.credit = 0;
+                              return;
+                            }
                             try {
                               course.credit = int.parse(value);
                             } catch (e) {
