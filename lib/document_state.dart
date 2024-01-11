@@ -14,4 +14,8 @@ class DocState extends ChangeNotifier {
     courses.removeAt(index);
     notifyListeners();
   }
+
+  void refresh() {
+    notifyListeners();
+  }
 }

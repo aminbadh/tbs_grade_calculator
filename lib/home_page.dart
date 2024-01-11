@@ -14,7 +14,6 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
-    print(docState.courses);
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -50,6 +49,8 @@ class Navbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final docState = context.watch<DocState>();
+
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
@@ -63,6 +64,8 @@ class Navbar extends StatelessWidget {
         ],
       ),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
             onTap: () {},
@@ -84,6 +87,14 @@ class Navbar extends StatelessWidget {
               ),
             ),
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: IconButton(
+              onPressed: () => docState.refresh(),
+              icon: const Icon(Icons.refresh_rounded),
+              tooltip: 'Refresh',
+            ),
+          )
         ],
       ),
     );

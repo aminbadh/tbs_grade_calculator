@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'course.dart';
+import 'document_state.dart';
 
 class CourseCardTemp extends StatelessWidget {
   const CourseCardTemp({super.key, this.course});
@@ -35,19 +37,29 @@ class DocumentResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Opacity(
-      opacity: 0.7,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 24),
-        child: Container(
+    final docState = context.watch<DocState>();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Container(
+          padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Colors.grey),
+            color: Colors.white.withOpacity(0.7),
+            border: Border.all(color: Colors.black12),
             borderRadius: BorderRadius.circular(12),
           ),
-          height: 84,
-        ),
-      ),
+          child: Center(
+            child: SizedBox(
+              width: 400,
+              child: Text(
+                docState.courses.toString(),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      letterSpacing: 1,
+                    ),
+              ),
+            ),
+          )),
     );
   }
 }

@@ -25,8 +25,8 @@ class _CourseCardState extends State<CourseCard> {
     final course = docState.courses[widget.index];
 
     final nameController = TextEditingController(text: course.title);
-    final creditController = TextEditingController(
-        text: (course.credit >= 0) ? course.credit.toString() : '1');
+    final creditController =
+        TextEditingController(text: course.credit.toString());
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
@@ -102,8 +102,8 @@ class _CourseCardState extends State<CourseCard> {
                             try {
                               course.credit = int.parse(value);
                             } catch (e) {
-                              course.credit = 0;
-                              creditController.text = 0.toString();
+                              course.credit = 1;
+                              creditController.text = '';
                             }
                           },
                         ),
@@ -118,7 +118,10 @@ class _CourseCardState extends State<CourseCard> {
               height: 1,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              padding: const EdgeInsets.symmetric(
+                vertical: 12,
+                horizontal: 16,
+              ),
               child: Column(
                 children: [
                   Opacity(
@@ -184,7 +187,7 @@ class _CourseCardState extends State<CourseCard> {
                   Expanded(
                     // This is also used as the place to display errors.
                     child: Text(
-                      'Grade: ${getGrade(course.marks)}',
+                      gradeMessage(course),
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -204,12 +207,9 @@ class _CourseCardState extends State<CourseCard> {
     );
   }
 
-  String getGrade(List<Mark> marks) {
-    double grade = 0;
-    for (final mark in marks) {
-      grade += (mark.mark / mark.max) * mark.weight;
-    }
-    return 'A ($grade)';
+  String gradeMessage(Course course) {
+    final grade = course.grade;
+    return 'Grade: ${letter(grade)} (${grade.toStringAsFixed(2)})';
   }
 }
 
@@ -229,45 +229,30 @@ class MarkRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controllers = [
-      TextEditingController(text: mark.mark.toString()),
-      TextEditingController(text: mark.max.toString()),
-      TextEditingController(text: mark.weight.toString())
-    ];
+    final markController = TextEditingController(text: mark.mark.toString());
+    final maxController = TextEditingController(text: mark.max.toString());
+    final weightController =
+        TextEditingController(text: mark.weight.toString());
+
     return Padding(
       padding: const EdgeInsets.only(top: 12),
       child: Row(
         children: [
-          for (final i in const [0, 1, 2])
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: TextField(
-                  style: const TextStyle(fontSize: 14),
-                  maxLength: 3,
-                  controller: controllers[i],
-                  decoration: const InputDecoration(
-                    isCollapsed: true,
-                    counterText: '',
-                    hintText: '0',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    if (value.isEmpty) {
-                      putIn(i, 0);
-                      return;
-                    }
-                    try {
-                      putIn(i, int.parse(value));
-                    } catch (e) {
-                      putIn(i, 0);
-                      controllers[i].text = 0.toString();
-                    }
-                    updateParent();
-                  },
-                ),
-              ),
-            ),
+          MarkTextField(
+            controller: markController,
+            update: (val) => mark.mark = val,
+            updateParent: updateParent,
+          ),
+          MarkTextField(
+            controller: maxController,
+            update: (val) => mark.max = val,
+            updateParent: updateParent,
+          ),
+          MarkTextField(
+            controller: weightController,
+            update: (val) => mark.weight = val,
+            updateParent: updateParent,
+          ),
           Opacity(
             opacity: 0.7,
             child: InkWell(
@@ -282,18 +267,70 @@ class MarkRow extends StatelessWidget {
       ),
     );
   }
+}
 
-  void putIn(int i, int val) {
-    switch (i) {
-      case 0:
-        mark.mark = val;
-        break;
-      case 1:
-        mark.max = val;
-        break;
-      case 2:
-        mark.weight = val;
-        break;
+class MarkTextField extends StatelessWidget {
+  const MarkTextField(
+      {super.key,
+      required this.controller,
+      required this.update,
+      required this.updateParent});
+
+  final TextEditingController controller;
+  final Function update;
+  final Function updateParent;
+
+  @override
+  Widget build(BuildContext context) {
+    final focus = FocusNode();
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: TextField(
+          style: const TextStyle(fontSize: 14),
+          focusNode: focus,
+          maxLength: 3,
+          controller: controller,
+          decoration: const InputDecoration(
+            isCollapsed: true,
+            counterText: '',
+            hintText: '0',
+            border: InputBorder.none,
+          ),
+          //FIXME - doesn't work when switch focus to other text field
+          onSubmitted: (val) {
+            verify();
+          },
+          onTapOutside: (event) {
+            if (focus.hasFocus) {
+              verify();
+              focus.unfocus();
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  //FIXME - accept float values (mark can be float)
+  void verify() {
+    final value = controller.text;
+    if (value.isEmpty) {
+      update(0);
+      controller.text = '';
+    } else {
+      final res = intify(value);
+      update(res == -1 ? 0 : res);
+      controller.text = res == -1 ? '' : res.toString();
+    }
+    updateParent();
+  }
+
+  int intify(String value) {
+    try {
+      return int.parse(value);
+    } catch (e) {
+      return -1;
     }
   }
 }
