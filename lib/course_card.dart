@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'course.dart';
 import 'document_state.dart';
 
-class CourseCard extends StatelessWidget {
+class CourseCard extends StatefulWidget {
   const CourseCard({
     super.key,
     required this.index,
@@ -14,9 +15,14 @@ class CourseCard extends StatelessWidget {
   final int index;
 
   @override
+  State<CourseCard> createState() => _CourseCardState();
+}
+
+class _CourseCardState extends State<CourseCard> {
+  @override
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
-    final course = docState.courses[index];
+    final course = docState.courses[widget.index];
 
     final nameController = TextEditingController(text: course.title);
     final creditController = TextEditingController(
@@ -25,7 +31,7 @@ class CourseCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Container(
-        constraints: const BoxConstraints(maxWidth: width),
+        constraints: const BoxConstraints(maxWidth: CourseCard.width),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(color: Colors.black26),
@@ -73,6 +79,7 @@ class CourseCard extends StatelessWidget {
                           decoration: const InputDecoration(
                             isDense: true,
                             counterText: '',
+                            hintText: '1',
                             border: OutlineInputBorder(),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
@@ -110,35 +117,39 @@ class CourseCard extends StatelessWidget {
               color: Colors.black12,
               height: 1,
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 children: [
                   Opacity(
                     opacity: 0.7,
                     child: Row(
                       children: [
-                        Expanded(
+                        const Expanded(
                           child: Text(
                             'Mark',
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: Text(
                             'Max',
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
-                        Expanded(
+                        const Expanded(
                           child: Text(
                             'Weight',
                             style: TextStyle(fontSize: 16),
                           ),
                         ),
                         InkWell(
-                          //TODO - onTap
-                          child: Padding(
+                          onTap: () {
+                            setState(() {
+                              course.marks.add(Mark());
+                            });
+                          },
+                          child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
                             child: Icon(Icons.add_rounded, size: 20),
                           ),
@@ -146,8 +157,18 @@ class CourseCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 4),
-                  MarkRow(),
+                  const SizedBox(height: 4),
+                  for (var mark in course.marks)
+                    MarkRow(
+                      mark: mark,
+                      last: course.marks.length == 1,
+                      delete: () {
+                        setState(() {
+                          course.marks.remove(mark);
+                        });
+                      },
+                      updateParent: () => setState(() {}),
+                    ),
                 ],
               ),
             ),
@@ -161,15 +182,16 @@ class CourseCard extends StatelessWidget {
                 children: [
                   const SizedBox(width: 8),
                   Expanded(
+                    // This is also used as the place to display errors.
                     child: Text(
-                      'Grade: A (92.16)',
+                      'Grade: ${getGrade(course.marks)}',
                       style: Theme.of(context).textTheme.titleSmall?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
                     ),
                   ),
                   IconButton(
-                    onPressed: () => docState.remove(index),
+                    onPressed: () => docState.remove(widget.index),
                     icon: const Icon(Icons.delete_outline),
                     tooltip: 'Remove',
                   )
@@ -181,70 +203,97 @@ class CourseCard extends StatelessWidget {
       ),
     );
   }
+
+  String getGrade(List<Mark> marks) {
+    double grade = 0;
+    for (final mark in marks) {
+      grade += (mark.mark / mark.max) * mark.weight;
+    }
+    return 'A ($grade)';
+  }
 }
 
 class MarkRow extends StatelessWidget {
   const MarkRow({
     super.key,
+    required this.mark,
+    required this.delete,
+    required this.updateParent,
+    required this.last,
   });
+
+  final Mark mark;
+  final Function delete;
+  final Function updateParent;
+  final bool last;
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.only(top: 12),
+    final controllers = [
+      TextEditingController(text: mark.mark.toString()),
+      TextEditingController(text: mark.max.toString()),
+      TextEditingController(text: mark.weight.toString())
+    ];
+    return Padding(
+      padding: const EdgeInsets.only(top: 12),
       child: Row(
         children: [
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: TextField(
-                style: TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  hintText: '100',
-                  border: InputBorder.none,
+          for (final i in const [0, 1, 2])
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: TextField(
+                  style: const TextStyle(fontSize: 14),
+                  maxLength: 3,
+                  controller: controllers[i],
+                  decoration: const InputDecoration(
+                    isCollapsed: true,
+                    counterText: '',
+                    hintText: '0',
+                    border: InputBorder.none,
+                  ),
+                  onChanged: (value) {
+                    if (value.isEmpty) {
+                      putIn(i, 0);
+                      return;
+                    }
+                    try {
+                      putIn(i, int.parse(value));
+                    } catch (e) {
+                      putIn(i, 0);
+                      controllers[i].text = 0.toString();
+                    }
+                    updateParent();
+                  },
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: TextField(
-                style: TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  hintText: '100',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4),
-              child: TextField(
-                style: TextStyle(fontSize: 14),
-                decoration: InputDecoration(
-                  isCollapsed: true,
-                  hintText: '100',
-                  border: InputBorder.none,
-                ),
-              ),
-            ),
-          ),
           Opacity(
             opacity: 0.7,
             child: InkWell(
-              //TODO - onTap
+              onTap: last ? null : () => delete(),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 4),
-                child: Icon(Icons.remove_rounded, size: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 4),
+                child: Icon(last ? null : Icons.remove_rounded, size: 20),
               ),
             ),
           ),
         ],
       ),
     );
+  }
+
+  void putIn(int i, int val) {
+    switch (i) {
+      case 0:
+        mark.mark = val;
+        break;
+      case 1:
+        mark.max = val;
+        break;
+      case 2:
+        mark.weight = val;
+        break;
+    }
   }
 }

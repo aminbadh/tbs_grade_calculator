@@ -9,9 +9,9 @@ class Course {
 }
 
 class Mark {
-  var mark = -1;
-  var max = -1;
-  var weight = -1;
+  var mark = 80;
+  var max = 100;
+  var weight = 10;
 
   @override
   String toString() => '{mark = $mark, max = $max, weight = $weight}';
