@@ -52,7 +52,7 @@ class DocumentResults extends StatelessWidget {
             child: SizedBox(
               width: 400,
               child: Text(
-                docState.courses.toString(),
+                docState.document.toString(),
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       letterSpacing: 1,

@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'course.dart';
+import 'document.dart';
 
 class DocState extends ChangeNotifier {
-  var courses = <Course>[Course()];
+  final document = Document();
+
+  List<Course> get courses {
+    return document.courses;
+  }
 
   void add() {
     courses.add(Course());
