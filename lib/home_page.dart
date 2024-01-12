@@ -21,9 +21,7 @@ class HomePage extends StatelessWidget {
         child: Stack(
           children: [
             const Positioned.fill(
-              child: SingleChildScrollView(
-                child: GradeCalculator(),
-              ),
+              child: GradeCalculator(),
             ),
             Positioned(
               right: 24,
