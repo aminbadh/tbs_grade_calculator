@@ -164,7 +164,7 @@ class _CourseCardState extends State<CourseCard> {
                   for (var mark in course.marks)
                     MarkRow(
                       mark: mark,
-                      last: course.marks.length == 1,
+                      length: course.marks.length,
                       delete: () {
                         setState(() {
                           course.marks.remove(mark);
@@ -219,13 +219,13 @@ class MarkRow extends StatelessWidget {
     required this.mark,
     required this.delete,
     required this.updateParent,
-    required this.last,
+    required this.length,
   });
 
   final Mark mark;
   final Function delete;
   final Function updateParent;
-  final bool last;
+  final int length;
 
   @override
   Widget build(BuildContext context) {
@@ -242,24 +242,28 @@ class MarkRow extends StatelessWidget {
             controller: markController,
             update: (val) => mark.mark = val,
             updateParent: updateParent,
+            empty: 0,
           ),
           MarkTextField(
             controller: maxController,
             update: (val) => mark.max = val,
             updateParent: updateParent,
+            empty: 10,
           ),
           MarkTextField(
             controller: weightController,
             update: (val) => mark.weight = val,
             updateParent: updateParent,
+            empty: 100 / length,
           ),
           Opacity(
             opacity: 0.7,
             child: InkWell(
-              onTap: last ? null : () => delete(),
+              onTap: length == 1 ? null : () => delete(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 4),
-                child: Icon(last ? null : Icons.remove_rounded, size: 20),
+                child:
+                    Icon(length == 1 ? null : Icons.remove_rounded, size: 20),
               ),
             ),
           ),
@@ -270,65 +274,62 @@ class MarkRow extends StatelessWidget {
 }
 
 class MarkTextField extends StatelessWidget {
-  const MarkTextField(
-      {super.key,
-      required this.controller,
-      required this.update,
-      required this.updateParent});
+  const MarkTextField({
+    super.key,
+    required this.controller,
+    required this.update,
+    required this.updateParent,
+    required this.empty,
+  });
 
   final TextEditingController controller;
   final Function update;
   final Function updateParent;
+  final double empty; // default value
 
   @override
   Widget build(BuildContext context) {
     final focus = FocusNode();
+    focus.addListener(() {
+      if (!focus.hasPrimaryFocus) verify();
+    });
+
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: TextField(
           style: const TextStyle(fontSize: 14),
           focusNode: focus,
-          maxLength: 3,
+          maxLength: 6,
           controller: controller,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             isCollapsed: true,
             counterText: '',
-            hintText: '0',
+            hintText: empty.toStringAsFixed(2),
             border: InputBorder.none,
           ),
-          //FIXME - doesn't work when switch focus to other text field
-          onSubmitted: (val) {
-            verify();
-          },
-          onTapOutside: (event) {
-            if (focus.hasFocus) {
-              verify();
-              focus.unfocus();
-            }
-          },
         ),
       ),
     );
   }
 
-  //FIXME - accept float values (mark can be float)
   void verify() {
     final value = controller.text;
     if (value.isEmpty) {
-      update(0);
+      update(empty);
       controller.text = '';
     } else {
-      final res = intify(value);
-      update(res == -1 ? 0 : res);
+      final res = convert(value);
+      update(res == -1 ? empty : res);
       controller.text = res == -1 ? '' : res.toString();
     }
     updateParent();
   }
 
-  int intify(String value) {
+  // TODO - implement flexible verification
+  double convert(String value) {
     try {
-      return int.parse(value);
+      return double.parse(value);
     } catch (e) {
       return -1;
     }
