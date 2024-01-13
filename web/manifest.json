@@ -1,6 +1,6 @@
 {
-    "name": "tbs_grade_calculator",
-    "short_name": "tbs_grade_calculator",
+    "name": "TBS Grade Calculator",
+    "short_name": "TBS GPA",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
