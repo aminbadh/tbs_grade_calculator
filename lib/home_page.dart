@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -66,7 +67,7 @@ class Navbar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: null,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -106,13 +107,14 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final post = ['w/ Flutter', 'in 7ay 3icha', 'by GDSC Member'];
     return ClipRect(
       child: Container(
         color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
-          child: const Padding(
-            padding: EdgeInsets.symmetric(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
               vertical: 16,
               horizontal: 48,
             ),
@@ -121,16 +123,16 @@ class Footer extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('Made with '),
-                    Icon(
+                    const Text('Made with '),
+                    const Icon(
                       Icons.favorite,
                       color: Colors.amber,
                       size: 18,
                     ),
-                    Text(' Flutter'),
+                    Text(' ${post[Random().nextInt(post.length)]}'),
                   ],
                 ),
-                FooterVersion(),
+                const FooterVersion(),
               ],
             ),
           ),
