@@ -32,8 +32,8 @@ class CourseCardTemp extends StatelessWidget {
   }
 }
 
-class DocumentResults extends StatelessWidget {
-  const DocumentResults({super.key});
+class DebugDocument extends StatelessWidget {
+  const DebugDocument({super.key});
 
   @override
   Widget build(BuildContext context) {

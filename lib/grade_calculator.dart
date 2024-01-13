@@ -1,10 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'course.dart';
 import 'course_card.dart';
 import 'document_state.dart';
-import 'temp_widgets.dart';
 
 class GradeCalculator extends StatelessWidget {
   const GradeCalculator({super.key});
@@ -13,6 +13,10 @@ class GradeCalculator extends StatelessWidget {
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
     final courses = docState.courses;
+
+    if (kDebugMode) {
+      print(docState.document.toString());
+    }
 
     return SingleChildScrollView(
       child: Center(
@@ -90,6 +94,85 @@ class GradeTitle extends StatelessWidget {
             borderSide: BorderSide(color: Colors.black12, width: 0),
           ),
           border: OutlineInputBorder(),
+        ),
+      ),
+    );
+  }
+}
+
+class DocumentResults extends StatelessWidget {
+  const DocumentResults({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final docState = context.watch<DocState>();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Container(
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.7),
+          border: Border.all(color: Colors.black12),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            const Opacity(
+              opacity: 0.7,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Registered Credit',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'Earned Credit',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Expanded(
+                    child: Text(
+                      'GPA',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    docState.document.registeredCredit.toString(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    docState.document.earnedCredit.toString(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    docState.document.gpa.toStringAsFixed(2),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

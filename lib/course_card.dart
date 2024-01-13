@@ -87,10 +87,13 @@ class _CourseCardState extends State<CourseCard> {
                                 width: 0,
                               ),
                             ),
-                            suffixIcon: Icon(
-                              size: 24,
-                              Icons.bolt,
-                              color: Colors.amber,
+                            suffixIcon: Tooltip(
+                              message: 'Credit',
+                              child: Icon(
+                                size: 24,
+                                Icons.bolt,
+                                color: Colors.amber,
+                              ),
                             ),
                           ),
                           controller: creditController,
@@ -254,7 +257,7 @@ class MarkRow extends StatelessWidget {
             controller: weightController,
             update: (val) => mark.weight = val,
             updateParent: updateParent,
-            empty: 100 / length,
+            empty: double.parse((100 / length).toStringAsFixed(2)),
           ),
           Opacity(
             opacity: 0.7,
@@ -326,7 +329,6 @@ class MarkTextField extends StatelessWidget {
     updateParent();
   }
 
-  // TODO - implement flexible verification
   double convert(String value) {
     try {
       return double.parse(value);
