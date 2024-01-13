@@ -44,3 +44,8 @@ app.*.map.json
 
 # Windows is a secondary dev environment
 windows/
+
+# Firebase
+.firebase/
+.firebaserc
+firebase.json
