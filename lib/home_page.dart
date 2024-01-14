@@ -16,25 +16,29 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
 
-    return Scaffold(
-      backgroundColor: Colors.grey[100],
-      body: SizedBox.expand(
-        child: Stack(
-          children: [
-            const Positioned.fill(
-              child: GradeCalculator(),
-            ),
-            Positioned(
-              right: 24,
-              bottom: 72,
-              child: FloatingActionButton(
-                onPressed: docState.add,
-                child: const Icon(Icons.add_rounded),
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor:
+            Theme.of(context).colorScheme.background.withOpacity(0.97),
+        body: SizedBox.expand(
+          child: Stack(
+            children: [
+              const Positioned.fill(
+                child: GradeCalculator(),
               ),
-            ),
-            const Positioned(bottom: 0, left: 0, right: 0, child: Footer()),
-            const Positioned(top: 0, left: 0, right: 0, child: Navbar()),
-          ],
+              Positioned(
+                right: 24,
+                bottom: 72,
+                child: FloatingActionButton(
+                  //tooltip: 'Add Course',
+                  onPressed: docState.add,
+                  child: const Icon(Icons.add_rounded),
+                ),
+              ),
+              const Positioned(bottom: 0, left: 0, right: 0, child: Footer()),
+              const Positioned(top: 0, left: 0, right: 0, child: Navbar()),
+            ],
+          ),
         ),
       ),
     );
@@ -49,15 +53,16 @@ class Navbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
+    final theme = Theme.of(context);
 
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.background,
-        boxShadow: const [
+        color: theme.colorScheme.background,
+        boxShadow: [
           BoxShadow(
-            color: Colors.grey,
-            offset: Offset(0.0, 1.0),
+            color: theme.colorScheme.shadow.withOpacity(0.25),
+            offset: const Offset(0.0, 1.0),
             blurRadius: 6.0,
           ),
         ],
@@ -67,7 +72,7 @@ class Navbar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: null,
+            onTap: docState.refresh,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
@@ -80,20 +85,12 @@ class Navbar extends StatelessWidget {
                   const SizedBox(width: 12),
                   Text(
                     'Grade Calculator',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: theme.textTheme.titleLarge,
                   )
                 ],
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: IconButton(
-              onPressed: () => docState.refresh(),
-              icon: const Icon(Icons.refresh_rounded),
-              tooltip: 'Refresh',
-            ),
-          )
         ],
       ),
     );
@@ -107,10 +104,12 @@ class Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final post = ['w/ Flutter', 'in 7ay 3icha', 'by GDSC Member'];
+    final post = ['w/ Flutter', 'in 7ay 3icha'];
+    final theme = Theme.of(context);
+
     return ClipRect(
       child: Container(
-        color: Theme.of(context).colorScheme.primary.withOpacity(0.05),
+        color: theme.colorScheme.primary.withOpacity(0.05),
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 6.0, sigmaY: 6.0),
           child: Padding(

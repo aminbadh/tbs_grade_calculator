@@ -14,15 +14,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => DocState(),
-      child: MaterialApp(
-        title: 'TBS Grade Calculator',
-        theme: ThemeData(
-          textTheme: GoogleFonts.montserratTextTheme(),
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
-        ),
-        home: const HomePage(),
+    return MaterialApp(
+      title: 'TBS Grade Calculator',
+      theme: ThemeData(
+        textTheme: GoogleFonts.montserratTextTheme(),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+      ),
+      home: ChangeNotifierProvider(
+        create: (context) => DocState(),
+        child: const HomePage(),
       ),
     );
   }
