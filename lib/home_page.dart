@@ -15,14 +15,19 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
+    final scheme = Theme.of(context).colorScheme;
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor:
-            Theme.of(context).colorScheme.background.withOpacity(0.97),
+        backgroundColor: scheme.background,
         body: SizedBox.expand(
           child: Stack(
             children: [
+              Positioned.fill(
+                child: Container(
+                  color: scheme.onBackground.withOpacity(0.02),
+                ),
+              ),
               const Positioned.fill(
                 child: GradeCalculator(),
               ),
