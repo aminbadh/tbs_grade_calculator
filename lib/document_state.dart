@@ -15,8 +15,8 @@ class DocState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void remove(int index) {
-    courses.removeAt(index);
+  void remove(Course course) {
+    courses.remove(course);
     notifyListeners();
   }
 

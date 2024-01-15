@@ -5,25 +5,19 @@ import 'course.dart';
 import 'course_card_components.dart';
 import 'document_state.dart';
 
-class CourseCard extends StatefulWidget {
-  const CourseCard({
-    super.key,
-    required this.index,
-  });
+class CourseCard extends StatelessWidget {
+  const CourseCard(this.course, {super.key});
 
   static const double width = 12 * 12 * 3.5;
 
-  final int index;
+  final Course course;
 
-  @override
-  State<CourseCard> createState() => _CourseCardState();
-}
+  String gradeMessage(double grade) =>
+      'Grade: ${letter(grade)} (${grade.toStringAsFixed(2)})';
 
-class _CourseCardState extends State<CourseCard> {
   @override
   Widget build(BuildContext context) {
-    final docState = context.watch<DocState>();
-    final course = docState.courses[widget.index];
+    final state = context.watch<DocState>();
     final theme = Theme.of(context);
 
     return Padding(
@@ -53,44 +47,29 @@ class _CourseCardState extends State<CourseCard> {
                 ],
               ),
             ),
-            const Divider(
-              color: Colors.black12,
+            Divider(
+              color: theme.colorScheme.onBackground.withOpacity(0.12),
               height: 1,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 16,
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 children: [
                   Opacity(
                     opacity: 0.7,
                     child: Row(
                       children: [
-                        const Expanded(
-                          child: Text(
-                            'Mark',
-                            style: TextStyle(fontSize: 16),
+                        for (final txt in ['Mark', 'Max', 'Weight'])
+                          Expanded(
+                            child: Text(
+                              style: const TextStyle(fontSize: 16),
+                              txt,
+                            ),
                           ),
-                        ),
-                        const Expanded(
-                          child: Text(
-                            'Max',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        const Expanded(
-                          child: Text(
-                            'Weight',
-                            style: TextStyle(fontSize: 16),
-                          ),
-                        ),
                         InkWell(
                           onTap: () {
-                            setState(() {
-                              course.marks.add(Mark());
-                            });
+                            course.marks.add(Mark());
+                            state.refresh();
                           },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
@@ -106,17 +85,16 @@ class _CourseCardState extends State<CourseCard> {
                       mark: mark,
                       length: course.marks.length,
                       delete: () {
-                        setState(() {
-                          course.marks.remove(mark);
-                        });
+                        course.marks.remove(mark);
+                        state.refresh();
                       },
-                      updateParent: () => setState(() {}),
+                      updateParent: state.refresh,
                     ),
                 ],
               ),
             ),
-            const Divider(
-              color: Colors.black12,
+            Divider(
+              color: theme.colorScheme.onBackground.withOpacity(0.12),
               height: 1,
             ),
             Padding(
@@ -125,16 +103,19 @@ class _CourseCardState extends State<CourseCard> {
                 children: [
                   const SizedBox(width: 8),
                   Expanded(
-                    // This is also used as the place to display errors.
-                    child: Text(
-                      gradeMessage(course),
-                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4),
+                      child: Text(
+                        gradeMessage(course.grade), //TODO - display errors
+                        style: theme.textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   IconButton(
-                    onPressed: () => docState.remove(widget.index),
+                    onPressed: () => state.remove(course),
                     icon: const Icon(Icons.delete_outline),
                     tooltip: 'Remove',
                   )
@@ -145,11 +126,6 @@ class _CourseCardState extends State<CourseCard> {
         ),
       ),
     );
-  }
-
-  String gradeMessage(Course course) {
-    final grade = course.grade;
-    return 'Grade: ${letter(grade)} (${grade.toStringAsFixed(2)})';
   }
 }
 

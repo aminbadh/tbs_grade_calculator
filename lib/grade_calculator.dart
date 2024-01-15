@@ -53,20 +53,20 @@ class GradeCalculator extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  for (int i = 0; i < len; i += 2) CourseCard(index: i),
+                  for (int i = 0; i < len; i += 2) CourseCard(courses[i]),
                 ],
               ),
               Column(
                 children: [
-                  for (int i = 1; i < len; i += 2) CourseCard(index: i),
+                  for (int i = 1; i < len; i += 2) CourseCard(courses[i]),
                 ],
               ),
             ],
           ),
-        if (odd) CourseCard(index: len),
+        if (odd) CourseCard(courses[len]),
       ];
     } else {
-      return [for (int i = 0; i < courses.length; i++) CourseCard(index: i)];
+      return [for (var course in courses) CourseCard(course)];
     }
   }
 }
