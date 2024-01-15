@@ -120,7 +120,11 @@ class DocumentResults extends StatelessWidget {
     final theme = Theme.of(context);
 
     final titles = ['Registered Credit', 'Earned Credit', 'GPA'];
-    final content = [doc.registeredCredit, doc.earnedCredit, doc.gpa];
+    final content = [
+      doc.registeredCredit.toString(),
+      doc.earnedCredit.toString(),
+      doc.gpa.toStringAsFixed(2)
+    ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
@@ -153,10 +157,10 @@ class DocumentResults extends StatelessWidget {
             const SizedBox(height: 12),
             Row(
               children: [
-                for (final it in content)
+                for (final item in content)
                   Expanded(
                     child: Text(
-                      it is double ? it.toStringAsFixed(2) : it.toString(),
+                      item,
                       textAlign: TextAlign.center,
                       style: theme.textTheme.bodyLarge,
                     ),
