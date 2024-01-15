@@ -7,7 +7,7 @@ class Document {
   int get registeredCredit {
     var credit = 0;
     for (final course in courses) {
-      credit += course.credit;
+      credit += course.getCredit;
     }
     return credit;
   }
@@ -15,7 +15,7 @@ class Document {
   int get earnedCredit {
     var credit = 0;
     for (final course in courses) {
-      if (course.grade >= 60) credit += course.credit;
+      if (course.grade >= 60) credit += course.getCredit;
     }
     return credit;
   }
@@ -23,7 +23,7 @@ class Document {
   double get gpa {
     var gpa = 0.0;
     for (final course in courses) {
-      gpa += gpv(letter(course.grade)) * course.credit;
+      gpa += gpv(letter(course.grade)) * course.getCredit;
     }
     return gpa / registeredCredit;
   }

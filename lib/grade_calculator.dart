@@ -44,7 +44,7 @@ class GradeCalculator extends StatelessWidget {
   List<Widget> children(List<Course> courses, double width) {
     if (width > CourseCard.width * 2 + 144) {
       final odd = courses.length % 2 == 1;
-      final len = odd ? courses.length - 1 : courses.length;
+      final len = courses.length - (odd ? 1 : 0);
       return [
         if (len > 1)
           Row(
@@ -80,18 +80,14 @@ class GradeTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
     final document = docState.document;
-    final titleController = TextEditingController(text: document.title);
+    final controller = TextEditingController(text: document.title);
     final theme = Theme.of(context);
     final focus = FocusNode();
 
     focus.addListener(() {
       if (!focus.hasPrimaryFocus) {
-        var value = titleController.text;
-        // Editing value
-        value = value.trim();
-        // Finished
-        docState.setTitle(value);
-        titleController.text = value;
+        controller.text = controller.text.trim();
+        document.title = controller.text;
       }
     });
 
@@ -99,7 +95,7 @@ class GradeTitle extends StatelessWidget {
       child: TextField(
         textAlign: TextAlign.center,
         style: theme.textTheme.displaySmall,
-        controller: titleController,
+        controller: controller,
         focusNode: focus,
         decoration: InputDecoration(
           hintText: DocumentDefaults.title,

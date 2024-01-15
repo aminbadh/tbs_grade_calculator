@@ -1,7 +1,12 @@
 class Course {
-  var title = '';
-  var credit = 1;
+  var name = '';
+  int? credit;
   var marks = <Mark>[Mark()];
+
+  // Returns a non-nullable credit value
+  int get getCredit {
+    return credit ?? CourseDefaults.credit;
+  }
 
   double get grade {
     double total = 0, weights = 0;
@@ -13,8 +18,7 @@ class Course {
   }
 
   @override
-  String toString() =>
-      '{title = "$title", credit = $credit, ' 'marks = $marks}';
+  String toString() => '{title = "$name", credit = $credit, ' 'marks = $marks}';
 }
 
 class Mark {
@@ -38,4 +42,9 @@ String letter(double grade) {
   if (grade < 87) return 'B+';
   if (grade < 90) return 'A-';
   return 'A';
+}
+
+class CourseDefaults {
+  static const name = 'Course Name';
+  static const credit = 1;
 }

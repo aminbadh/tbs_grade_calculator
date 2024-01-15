@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'course.dart';
+import 'course_card_components.dart';
 import 'document_state.dart';
 
 class CourseCard extends StatefulWidget {
@@ -23,96 +24,32 @@ class _CourseCardState extends State<CourseCard> {
   Widget build(BuildContext context) {
     final docState = context.watch<DocState>();
     final course = docState.courses[widget.index];
-
-    final nameController = TextEditingController(text: course.title);
-    final creditController =
-        TextEditingController(text: course.credit.toString());
+    final theme = Theme.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12),
       child: Container(
         constraints: const BoxConstraints(maxWidth: CourseCard.width),
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: Colors.black26),
+          color: theme.colorScheme.background,
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: theme.colorScheme.onBackground.withOpacity(0.26),
+            width: 0,
+          ),
         ),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(12),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    child: TextField(
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium
-                          ?.copyWith(fontSize: 20),
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        hintText: 'Course Name',
-                        border: OutlineInputBorder(),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 0,
-                          ),
-                        ),
-                      ),
-                      controller: nameController,
-                      onChanged: (value) {
-                        course.title = value;
-                      },
-                    ),
-                  ),
+                  Expanded(child: CourseNameInput(course)),
                   const SizedBox(width: 24),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SizedBox(
-                        width: 72,
-                        child: TextField(
-                          style: Theme.of(context).textTheme.bodyLarge,
-                          maxLength: 1,
-                          decoration: const InputDecoration(
-                            isDense: true,
-                            counterText: '',
-                            hintText: '1',
-                            border: OutlineInputBorder(),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.black12,
-                                width: 0,
-                              ),
-                            ),
-                            suffixIcon: Tooltip(
-                              message: 'Credit',
-                              child: Icon(
-                                size: 24,
-                                Icons.bolt,
-                                color: Colors.amber,
-                              ),
-                            ),
-                          ),
-                          controller: creditController,
-                          onChanged: (value) {
-                            if (value.isEmpty) {
-                              course.credit = 0;
-                              return;
-                            }
-                            try {
-                              course.credit = int.parse(value);
-                            } catch (e) {
-                              course.credit = 1;
-                              creditController.text = '';
-                            }
-                          },
-                        ),
-                      ),
-                    ],
-                  )
+                  SizedBox(
+                    width: 72,
+                    child: CreditInput(course),
+                  ),
                 ],
               ),
             ),
