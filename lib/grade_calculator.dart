@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import 'course.dart';
 import 'course_card.dart';
+import 'document.dart';
 import 'document_state.dart';
 
 class GradeCalculator extends StatelessWidget {
@@ -77,23 +78,38 @@ class GradeTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final document = context.watch<DocState>().document;
+    final docState = context.watch<DocState>();
+    final document = docState.document;
     final titleController = TextEditingController(text: document.title);
+    final theme = Theme.of(context);
+    final focus = FocusNode();
+
+    focus.addListener(() {
+      if (!focus.hasPrimaryFocus) {
+        var value = titleController.text;
+        // Editing value
+        value = value.trim();
+        // Finished
+        docState.setTitle(value);
+        titleController.text = value;
+      }
+    });
 
     return IntrinsicWidth(
       child: TextField(
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.displaySmall,
+        style: theme.textTheme.displaySmall,
         controller: titleController,
-        onChanged: (value) {
-          document.title = value;
-        },
-        decoration: const InputDecoration(
-          hintText: 'Untitled',
+        focusNode: focus,
+        decoration: InputDecoration(
+          hintText: DocumentDefaults.title,
           enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.black12, width: 0),
+            borderSide: BorderSide(
+              color: theme.colorScheme.onBackground.withOpacity(0.12),
+              width: 0,
+            ),
           ),
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
       ),
     );

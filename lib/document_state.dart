@@ -23,4 +23,11 @@ class DocState extends ChangeNotifier {
   void refresh() {
     notifyListeners();
   }
+
+  // No need to notify listeners because in
+  // case of a rebuild the value will be updated
+  // if not, it will use the controller's value
+  void setTitle(String title) {
+    document.title = title;
+  }
 }

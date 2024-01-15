@@ -1,7 +1,7 @@
 import 'course.dart';
 
 class Document {
-  var title = 'Untitled';
+  var title = '';
   var courses = <Course>[Course()];
 
   int get registeredCredit {
@@ -57,4 +57,8 @@ double gpv(String letter) {
     default:
       return 0.0;
   }
+}
+
+class DocumentDefaults {
+  static const title = 'Untitled';
 }
