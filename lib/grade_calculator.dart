@@ -12,11 +12,10 @@ class GradeCalculator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final docState = context.watch<DocState>();
-    final courses = docState.courses;
+    final courses = context.watch<DocState>().courses;
 
     if (kDebugMode) {
-      print(docState.document.toString());
+      print(context.watch<DocState>().document.toString());
     }
 
     return SingleChildScrollView(

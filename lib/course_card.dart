@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'course.dart';
 import 'course_card_components.dart';
 import 'document_state.dart';
+import 'course_mark_row.dart';
 
 class CourseCard extends StatelessWidget {
   const CourseCard(this.course, {super.key});
@@ -81,15 +82,10 @@ class CourseCard extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   for (var mark in course.marks)
-                    MarkRow(
-                      mark: mark,
-                      length: course.marks.length,
-                      delete: () {
-                        course.marks.remove(mark);
-                        state.refresh();
-                      },
-                      updateParent: state.refresh,
-                    ),
+                    MarkRow(mark, course.marks.length == 1, delete: () {
+                      course.marks.remove(mark);
+                      state.refresh();
+                    }),
                 ],
               ),
             ),
@@ -126,127 +122,5 @@ class CourseCard extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class MarkRow extends StatelessWidget {
-  const MarkRow({
-    super.key,
-    required this.mark,
-    required this.delete,
-    required this.updateParent,
-    required this.length,
-  });
-
-  final Mark mark;
-  final Function delete;
-  final Function updateParent;
-  final int length;
-
-  @override
-  Widget build(BuildContext context) {
-    final markController = TextEditingController(text: mark.mark.toString());
-    final maxController = TextEditingController(text: mark.max.toString());
-    final weightController =
-        TextEditingController(text: mark.weight.toString());
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 12),
-      child: Row(
-        children: [
-          MarkTextField(
-            controller: markController,
-            update: (val) => mark.mark = val,
-            updateParent: updateParent,
-            empty: 0,
-          ),
-          MarkTextField(
-            controller: maxController,
-            update: (val) => mark.max = val,
-            updateParent: updateParent,
-            empty: 10,
-          ),
-          MarkTextField(
-            controller: weightController,
-            update: (val) => mark.weight = val,
-            updateParent: updateParent,
-            empty: double.parse((100 / length).toStringAsFixed(2)),
-          ),
-          Opacity(
-            opacity: 0.7,
-            child: InkWell(
-              onTap: length == 1 ? null : () => delete(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 4),
-                child:
-                    Icon(length == 1 ? null : Icons.remove_rounded, size: 20),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class MarkTextField extends StatelessWidget {
-  const MarkTextField({
-    super.key,
-    required this.controller,
-    required this.update,
-    required this.updateParent,
-    required this.empty,
-  });
-
-  final TextEditingController controller;
-  final Function update;
-  final Function updateParent;
-  final double empty; // default value
-
-  @override
-  Widget build(BuildContext context) {
-    final focus = FocusNode();
-    focus.addListener(() {
-      if (!focus.hasPrimaryFocus) verify();
-    });
-
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 4),
-        child: TextField(
-          style: const TextStyle(fontSize: 14),
-          focusNode: focus,
-          maxLength: 6,
-          controller: controller,
-          decoration: InputDecoration(
-            isCollapsed: true,
-            counterText: '',
-            hintText: empty.toStringAsFixed(2),
-            border: InputBorder.none,
-          ),
-        ),
-      ),
-    );
-  }
-
-  void verify() {
-    final value = controller.text;
-    if (value.isEmpty) {
-      update(empty);
-      controller.text = '';
-    } else {
-      final res = convert(value);
-      update(res == -1 ? empty : res);
-      controller.text = res == -1 ? '' : res.toString();
-    }
-    updateParent();
-  }
-
-  double convert(String value) {
-    try {
-      return double.parse(value);
-    } catch (e) {
-      return -1;
-    }
   }
 }

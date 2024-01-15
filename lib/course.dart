@@ -4,27 +4,28 @@ class Course {
   var marks = <Mark>[Mark()];
 
   // Returns a non-nullable credit value
-  int get getCredit {
-    return credit ?? CourseDefaults.credit;
-  }
+  int get getCredit => credit ?? CourseDefaults.credit;
 
   double get grade {
     double total = 0, weights = 0;
     for (final mark in marks) {
-      total += (mark.mark / mark.max) * mark.weight;
-      weights += mark.weight;
+      total += (mark.getMark / mark.getMax) * mark.getWeight;
+      weights += mark.getWeight;
     }
     return total / weights * 100;
   }
 
   @override
-  String toString() => '{title = "$name", credit = $credit, ' 'marks = $marks}';
+  String toString() => '{title = "$name", credit = $credit, marks = $marks}';
 }
 
 class Mark {
-  double mark = 80;
-  double max = 100;
-  double weight = 10;
+  double? mark, max, weight;
+
+  // Returns non-nullable values
+  double get getMark => mark ?? MarkDefaults.mark;
+  double get getMax => max ?? MarkDefaults.max;
+  double get getWeight => weight ?? MarkDefaults.weight;
 
   @override
   String toString() => '{mark = $mark, max = $max, weight = $weight}';
@@ -47,4 +48,10 @@ String letter(double grade) {
 class CourseDefaults {
   static const name = 'Course Name';
   static const credit = 1;
+}
+
+class MarkDefaults {
+  static const double mark = 37.5;
+  static const double max = 40;
+  static const double weight = 60;
 }
