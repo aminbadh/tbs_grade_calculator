@@ -116,71 +116,51 @@ class DocumentResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final docState = context.watch<DocState>();
+    final doc = context.watch<DocState>().document;
+    final theme = Theme.of(context);
+
+    final titles = ['Registered Credit', 'Earned Credit', 'GPA'];
+    final content = [doc.registeredCredit, doc.earnedCredit, doc.gpa];
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 24),
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.7),
-          border: Border.all(color: Colors.black12),
+          color: theme.colorScheme.background.withOpacity(0.7),
           borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: theme.colorScheme.onBackground.withOpacity(0.26),
+          ),
         ),
         child: Column(
           children: [
-            const Opacity(
+            Opacity(
               opacity: 0.7,
               child: Row(
                 children: [
-                  Expanded(
-                    child: Text(
-                      'Registered Credit',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
+                  for (final title in titles)
+                    Expanded(
+                      child: Text(
+                        title,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(fontSize: 16),
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Earned Credit',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'GPA',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
                 ],
               ),
             ),
             const SizedBox(height: 12),
             Row(
               children: [
-                Expanded(
-                  child: Text(
-                    docState.document.registeredCredit.toString(),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge,
+                for (final it in content)
+                  Expanded(
+                    child: Text(
+                      it is double ? it.toStringAsFixed(2) : it.toString(),
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.bodyLarge,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: Text(
-                    docState.document.earnedCredit.toString(),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ),
-                Expanded(
-                  child: Text(
-                    docState.document.gpa.toStringAsFixed(2),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ),
-                ),
               ],
             ),
           ],
