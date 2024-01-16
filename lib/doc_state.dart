@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'course.dart';
-import 'document.dart';
+import 'models/course.dart';
+import 'models/document.dart';
 
 class DocState extends ChangeNotifier {
   final document = Document();

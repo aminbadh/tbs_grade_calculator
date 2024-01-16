@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'course.dart';
-import 'course_card_components.dart';
-import 'document_state.dart';
+import '../models/course.dart';
+import 'course_card_inputs.dart';
+import '../doc_state.dart';
 import 'course_mark_row.dart';
 
 class CourseCard extends StatelessWidget {

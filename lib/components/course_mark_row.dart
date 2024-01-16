@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'course.dart';
-import 'document_state.dart';
+import '../models/course.dart';
+import '../doc_state.dart';
 
 class MarkRow extends StatelessWidget {
   const MarkRow(this.mark, this.last, {super.key, required this.delete});
