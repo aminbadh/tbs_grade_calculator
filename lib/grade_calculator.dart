@@ -24,16 +24,18 @@ class GradeCalculator extends StatelessWidget {
           width: 1200,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              children: [
-                const SizedBox(height: 38 + 80),
-                const GradeTitle(),
-                const SizedBox(height: 24),
-                ...children(courses, MediaQuery.of(context).size.width),
-                const DocumentResults(),
-                const SizedBox(height: 60 + 72),
-              ],
-            ),
+            child: LayoutBuilder(builder: (context, constraints) {
+              return Column(
+                children: [
+                  const SizedBox(height: 38 + 80),
+                  const GradeTitle(),
+                  const SizedBox(height: 24),
+                  ...children(courses, constraints.minWidth),
+                  const DocumentResults(),
+                  const SizedBox(height: 60 + 72),
+                ],
+              );
+            }),
           ),
         ),
       ),
@@ -41,7 +43,7 @@ class GradeCalculator extends StatelessWidget {
   }
 
   List<Widget> children(List<Course> courses, double width) {
-    if (width > CourseCard.width * 2 + 144) {
+    if (width > CourseCard.width * 2 + 84) {
       final odd = courses.length % 2 == 1;
       final len = courses.length - (odd ? 1 : 0);
       return [
