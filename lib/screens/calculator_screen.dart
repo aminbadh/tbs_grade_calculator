@@ -6,6 +6,7 @@ import '../components/document_results.dart';
 import '../components/document_title.dart';
 import '../components/course_card.dart';
 import '../doc_state.dart';
+import '../main.dart';
 import '../models/course.dart';
 
 class CalculatorScreen extends StatelessWidget {
@@ -50,6 +51,7 @@ class CalculatorScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: scaffoldBackgroundColor(context),
       body: SingleChildScrollView(
         child: Center(
           child: SizedBox(

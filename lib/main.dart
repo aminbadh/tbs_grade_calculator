@@ -28,6 +28,7 @@ class App extends StatelessWidget {
   Route<dynamic>? _onGenerateRoute(RouteSettings s) => MaterialPageRoute(
         builder: (context) => SafeArea(
           child: Scaffold(
+            backgroundColor: scaffoldBackgroundColor(context),
             appBar: const PreferredSize(
               preferredSize: Size.fromHeight(80),
               child: Navbar(),
@@ -52,3 +53,8 @@ class App extends StatelessWidget {
     );
   }
 }
+
+Color scaffoldBackgroundColor(context) => Color.alphaBlend(
+      Theme.of(context).colorScheme.onBackground.withOpacity(0.015),
+      Theme.of(context).colorScheme.background,
+    );
