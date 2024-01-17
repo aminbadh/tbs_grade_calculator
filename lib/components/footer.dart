@@ -5,13 +5,15 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Footer extends StatelessWidget {
-  const Footer({
+  const Footer(
+    this.msg, {
     super.key,
   });
 
+  final String msg;
+
   @override
   Widget build(BuildContext context) {
-    final post = ['w/ Flutter', 'in 7ay 3icha'];
     final theme = Theme.of(context);
 
     return Container(
@@ -32,7 +34,7 @@ class Footer extends StatelessWidget {
                   color: Colors.amber,
                   size: 18,
                 ),
-                Text(' ${post[Random().nextInt(post.length)]}'),
+                Text(' $msg'),
               ],
             ),
             const FooterVersion(),
@@ -70,4 +72,9 @@ class FooterVersion extends StatelessWidget {
       ),
     );
   }
+}
+
+String getFooterMessage() {
+  final post = ['w/ Flutter', 'in 7ay 3icha'];
+  return post[Random().nextInt(post.length)];
 }

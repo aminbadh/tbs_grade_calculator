@@ -24,15 +24,18 @@ class Navbar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
-            onTap: () {},
+            onTap: () => Navigator.of(context).pushNamed('/'),
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
-                    Icons.calculate_outlined,
-                    size: 36,
+                  const Opacity(
+                    opacity: 0.9,
+                    child: Icon(
+                      Icons.calculate_outlined,
+                      size: 32,
+                    ),
                   ),
                   const SizedBox(width: 12),
                   Text(
@@ -41,6 +44,18 @@ class Navbar extends StatelessWidget {
                   )
                 ],
               ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: OutlinedButton(
+              onPressed: () => Navigator.of(context).pushNamed('/saves'),
+              style: OutlinedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(6),
+                ),
+              ),
+              child: const Text('Saves'),
             ),
           ),
         ],

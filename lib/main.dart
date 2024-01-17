@@ -25,7 +25,7 @@ class App extends StatelessWidget {
         _ => const NotFoundScreen(),
       };
 
-  Route<dynamic>? _onGenerateRoute(RouteSettings s) => MaterialPageRoute(
+  Route<dynamic>? _onGenerateRoute(RouteSettings s, _) => MaterialPageRoute(
         builder: (context) => SafeArea(
           child: Scaffold(
             backgroundColor: scaffoldBackgroundColor(context),
@@ -34,7 +34,7 @@ class App extends StatelessWidget {
               child: Navbar(),
             ),
             body: _body(s.name),
-            bottomNavigationBar: const Footer(),
+            bottomNavigationBar: Footer(_),
           ),
         ),
         settings: s,
@@ -43,9 +43,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final msg = getFooterMessage();
     return MaterialApp(
       title: 'TBS Grade Calculator',
-      onGenerateRoute: _onGenerateRoute,
+      onGenerateRoute: (_) => _onGenerateRoute(_, msg),
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
