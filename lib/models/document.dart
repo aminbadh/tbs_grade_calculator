@@ -1,5 +1,7 @@
 import 'course.dart';
 
+const String documentsKey = 'documents';
+
 class Document {
   var title = '';
   var courses = <Course>[Course()];

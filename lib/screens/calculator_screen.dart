@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../components/document_actions.dart';
 import '../components/document_results.dart';
 import '../components/document_title.dart';
 import '../components/course_card.dart';
@@ -66,6 +67,7 @@ class CalculatorScreen extends StatelessWidget {
                     const SizedBox(height: 24),
                     ..._children(courses, constraints.maxWidth),
                     const DocumentResults(),
+                    const DocumentActions(),
                     const SizedBox(height: 72),
                   ],
                 );

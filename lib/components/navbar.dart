@@ -20,7 +20,6 @@ class Navbar extends StatelessWidget {
         ],
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           InkWell(
@@ -46,6 +45,7 @@ class Navbar extends StatelessWidget {
               ),
             ),
           ),
+          const Spacer(),
           Padding(
             padding: const EdgeInsets.only(right: 12),
             child: OutlinedButton(
