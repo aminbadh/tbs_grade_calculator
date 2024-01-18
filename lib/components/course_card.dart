@@ -18,7 +18,6 @@ class CourseCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<DocState>();
     final theme = Theme.of(context);
 
     return Padding(
@@ -39,7 +38,7 @@ class CourseCard extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               child: Row(
                 children: [
-                  Expanded(child: CourseNameInput(course)),
+                  Flexible(child: CourseNameInput(course)),
                   const SizedBox(width: 24),
                   SizedBox(
                     width: 72,
@@ -70,7 +69,7 @@ class CourseCard extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             course.marks.add(Mark());
-                            state.refresh();
+                            context.read<DocState>().refresh();
                           },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
@@ -81,10 +80,10 @@ class CourseCard extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  for (var mark in course.marks)
+                  for (final mark in course.marks)
                     MarkRow(mark, course.marks.length == 1, delete: () {
                       course.marks.remove(mark);
-                      state.refresh();
+                      context.read<DocState>().refresh();
                     }),
                 ],
               ),
@@ -98,22 +97,20 @@ class CourseCard extends StatelessWidget {
               child: Row(
                 children: [
                   const SizedBox(width: 8),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      child: Text(
-                        gradeMessage(course.grade), //TODO - display errors
-                        style: theme.textTheme.titleSmall?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    child: Text(
+                      gradeMessage(course.grade),
+                      style: theme.textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
-                  const SizedBox(width: 8),
+                  const Spacer(),
                   IconButton(
-                    onPressed: () => state.remove(course),
+                    onPressed: () => context.read<DocState>().remove(course),
                     icon: const Icon(Icons.delete_outline),
-                    tooltip: 'Remove',
+                    //tooltip: 'Remove',
                   )
                 ],
               ),

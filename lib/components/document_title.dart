@@ -11,16 +11,16 @@ class DocumentTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final docState = context.watch<DocState>();
-    final document = docState.document;
-    final controller = TextEditingController(text: document.title);
-    final theme = Theme.of(context);
     final focus = FocusNode();
+    final theme = Theme.of(context);
+    final controller = TextEditingController(
+      text: context.read<DocState>().document.title,
+    );
 
     focus.addListener(() {
       if (!focus.hasPrimaryFocus) {
         controller.text = controller.text.trim();
-        document.title = controller.text;
+        context.read<DocState>().document.title = controller.text;
       }
     });
 

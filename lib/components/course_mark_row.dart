@@ -65,7 +65,6 @@ class MarkTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<DocState>();
     final controller = TextEditingController(text: val(value));
     final focus = FocusNode();
 
@@ -83,7 +82,7 @@ class MarkTextField extends StatelessWidget {
           controller.text = '';
         }
 
-        state.refresh();
+        context.read<DocState>().refresh();
       }
     });
 

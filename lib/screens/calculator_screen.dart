@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -38,19 +37,12 @@ class CalculatorScreen extends StatelessWidget {
         if (odd) CourseCard(courses[len]),
       ];
     } else {
-      return [for (var course in courses) CourseCard(course)];
+      return [for (final course in courses) CourseCard(course)];
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final courses = context.watch<DocState>().courses;
-    final state = context.watch<DocState>();
-
-    if (kDebugMode) {
-      print(context.watch<DocState>().document.toString());
-    }
-
     return Scaffold(
       backgroundColor: scaffoldBackgroundColor(context),
       body: SingleChildScrollView(
@@ -65,7 +57,10 @@ class CalculatorScreen extends StatelessWidget {
                     const SizedBox(height: 38),
                     const DocumentTitle(),
                     const SizedBox(height: 24),
-                    ..._children(courses, constraints.maxWidth),
+                    ..._children(
+                      context.watch<DocState>().courses,
+                      constraints.maxWidth,
+                    ),
                     const DocumentResults(),
                     const DocumentActions(),
                     const SizedBox(height: 72),
@@ -79,7 +74,7 @@ class CalculatorScreen extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(right: 8, bottom: 4),
         child: FloatingActionButton(
-          onPressed: state.add,
+          onPressed: context.read<DocState>().add,
           child: const Icon(Icons.add_rounded),
         ),
       ),

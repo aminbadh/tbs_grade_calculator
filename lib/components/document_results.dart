@@ -8,14 +8,14 @@ class DocumentResults extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final doc = context.watch<DocState>().document;
+    final document = context.watch<DocState>().document;
     final theme = Theme.of(context);
 
     final titles = ['Registered Credit', 'Earned Credit', 'GPA'];
     final content = [
-      doc.registeredCredit.toString(),
-      doc.earnedCredit.toString(),
-      doc.gpa.toStringAsFixed(2)
+      document.registeredCredit.toString(),
+      document.earnedCredit.toString(),
+      document.gpa.toStringAsFixed(2)
     ];
 
     return Padding(

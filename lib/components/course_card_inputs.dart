@@ -47,7 +47,6 @@ class CreditInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final state = context.watch<DocState>();
     final theme = Theme.of(context);
     final controller = TextEditingController(text: val(course.credit));
     final focus = FocusNode();
@@ -64,7 +63,7 @@ class CreditInput extends StatelessWidget {
           controller.text = '';
         }
 
-        state.refresh();
+        context.read<DocState>().refresh();
       }
     });
 
