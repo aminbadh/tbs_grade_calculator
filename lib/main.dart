@@ -38,7 +38,6 @@ class App extends StatelessWidget {
           ),
         ),
         settings: s,
-        maintainState: true,
       );
 
   @override
@@ -46,7 +45,7 @@ class App extends StatelessWidget {
     final msg = getFooterMessage();
     return MaterialApp(
       title: 'TBS Grade Calculator',
-      onGenerateRoute: (_) => _onGenerateRoute(_, msg),
+      onGenerateRoute: (s) => _onGenerateRoute(s, msg),
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
