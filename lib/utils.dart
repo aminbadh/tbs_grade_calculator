@@ -7,7 +7,7 @@ Color scaffoldBackgroundColor(BuildContext context) => Color.alphaBlend(
       Theme.of(context).colorScheme.background,
     );
 
-const Set<String> usedKeys = {'theme'};
+const Set<String> usedKeys = {'documents'};
 
 const emptyWidget = SizedBox.shrink();
 
