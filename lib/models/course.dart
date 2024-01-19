@@ -1,7 +1,24 @@
 class Course {
-  var name = '';
+  late String name;
   int? credit;
-  var marks = <Mark>[Mark()];
+  late List<Mark> marks;
+
+  Course({name, this.credit, marks}) {
+    this.name = name ?? '';
+    this.marks = marks ?? [Mark()];
+  }
+
+  factory Course.fromJson(Map<String, dynamic> json) {
+    final marks = <Mark>[];
+    for (final mark in json['marks']) {
+      marks.add(Mark.fromJson(mark));
+    }
+    return Course(
+      name: json['name'],
+      credit: json['credit'],
+      marks: marks,
+    );
+  }
 
   // Returns a non-nullable credit value
   int get getCredit => credit ?? CourseDefaults.credit;
@@ -16,11 +33,21 @@ class Course {
   }
 
   @override
-  String toString() => '{title = "$name", credit = $credit, marks = $marks}';
+  String toString() => '{"name": "$name", "credit": $credit, "marks": $marks}';
 }
 
 class Mark {
   double? mark, max, weight;
+
+  Mark({this.mark, this.weight, this.max});
+
+  factory Mark.fromJson(Map<String, dynamic> json) {
+    return Mark(
+      mark: json['mark'],
+      max: json['max'],
+      weight: json['weight'],
+    );
+  }
 
   // Returns non-nullable values
   double get getMark => mark ?? MarkDefaults.mark;
@@ -28,7 +55,7 @@ class Mark {
   double get getWeight => weight ?? MarkDefaults.weight;
 
   @override
-  String toString() => '{mark = $mark, max = $max, weight = $weight}';
+  String toString() => '{"mark": $mark, "max": $max, "weight": $weight}';
 }
 
 String letter(double grade) {

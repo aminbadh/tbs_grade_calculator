@@ -3,8 +3,24 @@ import 'course.dart';
 const String documentsKey = 'documents';
 
 class Document {
-  var title = '';
-  var courses = <Course>[Course()];
+  late String title;
+  late List<Course> courses;
+
+  Document({title, courses}) {
+    this.title = title ?? '';
+    this.courses = courses ?? [Course()];
+  }
+
+  factory Document.fromJson(Map<String, dynamic> json) {
+    final courses = <Course>[];
+    for (final course in json['courses']) {
+      courses.add(Course.fromJson(course));
+    }
+    return Document(
+      title: json['title'],
+      courses: courses,
+    );
+  }
 
   int get registeredCredit {
     var credit = 0;
@@ -31,7 +47,7 @@ class Document {
   }
 
   @override
-  String toString() => '{title = "$title", courses = $courses}';
+  String toString() => '{"title": "$title", "courses": $courses}';
 }
 
 double gpv(String letter) {

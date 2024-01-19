@@ -35,7 +35,7 @@ class DocumentActions extends StatelessWidget {
           ElevatedButton(
             onPressed: () =>
                 // ignore: avoid_print
-                print(context.read<DocState>().document.toString()),
+                print(context.read<DocState>().document),
             child: const Text('Debug'),
           ),
         if (kDebugMode)
