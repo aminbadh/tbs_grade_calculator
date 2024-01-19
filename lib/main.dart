@@ -7,11 +7,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'components/footer.dart';
 import 'components/navbar.dart';
-import 'doc_state.dart';
+import 'notifiers/document_state.dart';
 import 'models/document.dart';
 import 'screens/calculator_screen.dart';
 import 'screens/not_found_screen.dart';
 import 'screens/saves_screen.dart';
+import 'utils.dart';
 
 void main() {
   runApp(const App());
@@ -21,35 +22,27 @@ class App extends StatelessWidget {
   const App({super.key});
 
   Widget _calculator([Document? doc]) => ChangeNotifierProvider(
-        create: (context) => DocState(doc),
+        create: (context) => DocumentState(doc),
         child: const CalculatorScreen(),
       );
 
-  Future<Widget> _identify(String? id) async {
-    if (id == null) return const NotFoundScreen();
+  Future<Widget> _identify(String id) async {
+    if (usedKeys.contains(id)) return const NotFoundScreen();
+    final document = (await SharedPreferences.getInstance()).getString(id);
 
-    final sp = await SharedPreferences.getInstance();
-    final documents = sp.getStringList(documentsKey);
-
-    if (documents == null) return const NotFoundScreen();
-
-    if (documents.contains(id.substring(1))) {
-      final document = sp.getString(id.substring(1));
-      if (document != null) {
-        return _calculator(Document.fromJson(jsonDecode(document)));
-      }
+    if (document == null) {
+      return const NotFoundScreen();
+    } else {
+      return _calculator(Document.fromJson(jsonDecode(document)));
     }
-
-    return const NotFoundScreen();
   }
 
-  Widget _body(String? r) => switch (r) {
+  Widget _body(String r) => switch (r) {
         '/' => _calculator(),
         '/saves' => const SavesScreen(),
         _ => FutureBuilder(
-            future: _identify(r),
-            builder: (_, snapshot) => snapshot.data ?? const SizedBox(),
-          ),
+            future: _identify(r.substring(1)),
+            builder: (_, s) => s.data ?? emptyWidget),
       };
 
   Route<dynamic>? _onGenerateRoute(RouteSettings s, _) => MaterialPageRoute(
@@ -60,7 +53,7 @@ class App extends StatelessWidget {
               preferredSize: Size.fromHeight(80),
               child: Navbar(),
             ),
-            body: _body(s.name),
+            body: s.name == null ? const NotFoundScreen() : _body(s.name!),
             bottomNavigationBar: Footer(_),
           ),
         ),
@@ -80,8 +73,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-Color scaffoldBackgroundColor(context) => Color.alphaBlend(
-      Theme.of(context).colorScheme.onBackground.withOpacity(0.015),
-      Theme.of(context).colorScheme.background,
-    );

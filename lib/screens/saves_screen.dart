@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tbs_grade_calculator/utils.dart';
 
+import '../components/no_saves_found.dart';
+import '../components/snapshot_error.dart';
 import '../models/document.dart';
 
 class SavesScreen extends StatefulWidget {
@@ -11,30 +14,25 @@ class SavesScreen extends StatefulWidget {
 }
 
 class _SavesScreenState extends State<SavesScreen> {
-  late SharedPreferences sp;
+  int _mil(String s) => int.parse(s.substring(s.lastIndexOf('.') + 1));
+
+  int _comp(String a, String b) => _mil(b) - _mil(a);
 
   List<Widget> _children(List<String> keys) => keys.map((key) {
-        final sep = key.lastIndexOf('.');
-        final mil = int.parse(key.substring(sep + 1));
-        final title = key.substring(0, sep);
-
+        final mil = _mil(key), title = key.replaceAll('.$mil', '');
         return ListTile(
           title: Text(title.isEmpty ? DocumentDefaults.title : title),
           subtitle: Text(DateTime.fromMillisecondsSinceEpoch(mil).toString()),
           trailing: IconButton(
-            onPressed: () => setState(() => _delete(key)),
+            onPressed: () async {
+              (await SharedPreferences.getInstance()).remove(key);
+              setState(() {});
+            },
             icon: const Icon(Icons.delete_forever),
           ),
           onTap: () => Navigator.of(context).pushNamed('/$key'),
         );
       }).toList();
-
-  void _delete(String key) {
-    final documents = sp.getStringList(documentsKey) ?? [];
-    documents.remove(key);
-    sp.setStringList(documentsKey, documents);
-    sp.remove(key);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,61 +43,21 @@ class _SavesScreenState extends State<SavesScreen> {
           if (data == null) {
             final error = snapshot.error;
             if (error == null) {
-              return const SizedBox();
+              return emptyWidget;
             } else {
               return SnapshotErrorDisplay(error);
             }
           } else {
-            sp = data;
-            final keys = sp.getStringList(documentsKey);
-            if (keys == null || keys.isEmpty) {
-              return const Center(child: Text('No saves found'));
+            final keys = data.getKeys()..removeAll(usedKeys);
+            if (keys.isEmpty) {
+              return const NoSavesFound();
             } else {
               return ListView(
                 padding: const EdgeInsets.all(24.0),
-                children: _children(keys.reversed.toList()),
+                children: _children(keys.toList()..sort(_comp)),
               );
             }
           }
         });
-  }
-}
-
-class SnapshotErrorDisplay extends StatelessWidget {
-  const SnapshotErrorDisplay(this.error, {super.key});
-
-  final Object error;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              'Error',
-              style: theme.textTheme.bodyLarge?.copyWith(
-                letterSpacing: 1,
-                fontWeight: FontWeight.bold,
-                color: theme.colorScheme.error,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              error.toString(),
-              style: TextStyle(color: theme.colorScheme.error),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Contact me or create an issue on GitHub',
-              style: theme.textTheme.bodyLarge,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

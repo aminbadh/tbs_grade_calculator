@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'models/course.dart';
-import 'models/document.dart';
+import '../models/course.dart';
+import '../models/document.dart';
 
-class DocState extends ChangeNotifier {
+class DocumentState extends ChangeNotifier {
   late final Document document;
 
-  DocState([Document? document]) {
+  DocumentState([Document? document]) {
     this.document = document ?? Document();
   }
 
