@@ -4,7 +4,11 @@ import 'models/course.dart';
 import 'models/document.dart';
 
 class DocState extends ChangeNotifier {
-  final document = Document();
+  late final Document document;
+
+  DocState([Document? document]) {
+    this.document = document ?? Document();
+  }
 
   List<Course> get courses => document.courses;
 

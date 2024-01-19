@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -26,11 +25,7 @@ class _SavesScreenState extends State<SavesScreen> {
             onPressed: () => setState(() => _delete(key)),
             icon: const Icon(Icons.delete_forever),
           ),
-          onTap: () {
-            if (kDebugMode) {
-              print(sp.getString(key));
-            }
-          },
+          onTap: () => Navigator.of(context).pushNamed('/$key'),
         );
       }).toList();
 
