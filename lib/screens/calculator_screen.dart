@@ -5,9 +5,9 @@ import '../components/document_actions.dart';
 import '../components/document_results.dart';
 import '../components/document_title.dart';
 import '../components/course_card.dart';
-import '../doc_state.dart';
-import '../main.dart';
+import '../notifiers/document_state.dart';
 import '../models/course.dart';
+import '../utils.dart';
 
 class CalculatorScreen extends StatelessWidget {
   const CalculatorScreen({super.key});
@@ -58,7 +58,7 @@ class CalculatorScreen extends StatelessWidget {
                     const DocumentTitle(),
                     const SizedBox(height: 24),
                     ..._children(
-                      context.watch<DocState>().courses,
+                      context.watch<DocumentState>().courses,
                       constraints.maxWidth,
                     ),
                     const DocumentResults(),
@@ -74,7 +74,7 @@ class CalculatorScreen extends StatelessWidget {
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(right: 8, bottom: 4),
         child: FloatingActionButton(
-          onPressed: context.read<DocState>().add,
+          onPressed: context.read<DocumentState>().add,
           child: const Icon(Icons.add_rounded),
         ),
       ),

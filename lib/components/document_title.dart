@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/document.dart';
-import '../doc_state.dart';
+import '../notifiers/document_state.dart';
 
 class DocumentTitle extends StatelessWidget {
   const DocumentTitle({
@@ -14,13 +14,13 @@ class DocumentTitle extends StatelessWidget {
     final focus = FocusNode();
     final theme = Theme.of(context);
     final controller = TextEditingController(
-      text: context.read<DocState>().document.title,
+      text: context.read<DocumentState>().document.title,
     );
 
     focus.addListener(() {
       if (!focus.hasPrimaryFocus) {
         controller.text = controller.text.trim();
-        context.read<DocState>().document.title = controller.text;
+        context.read<DocumentState>().document.title = controller.text;
       }
     });
 

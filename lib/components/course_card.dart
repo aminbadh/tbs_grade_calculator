@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/course.dart';
+import '../models/document.dart';
+import '../models/mark.dart';
 import 'course_card_inputs.dart';
-import '../doc_state.dart';
+import '../notifiers/document_state.dart';
 import 'course_mark_row.dart';
 
 class CourseCard extends StatelessWidget {
@@ -69,7 +71,7 @@ class CourseCard extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             course.marks.add(Mark());
-                            context.read<DocState>().refresh();
+                            context.read<DocumentState>().refresh();
                           },
                           child: const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
@@ -83,7 +85,7 @@ class CourseCard extends StatelessWidget {
                   for (final mark in course.marks)
                     MarkRow(mark, course.marks.length == 1, delete: () {
                       course.marks.remove(mark);
-                      context.read<DocState>().refresh();
+                      context.read<DocumentState>().refresh();
                     }),
                 ],
               ),
@@ -108,7 +110,8 @@ class CourseCard extends StatelessWidget {
                   ),
                   const Spacer(),
                   IconButton(
-                    onPressed: () => context.read<DocState>().remove(course),
+                    onPressed: () =>
+                        context.read<DocumentState>().remove(course),
                     icon: const Icon(Icons.delete_outline),
                     //tooltip: 'Remove',
                   )

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/course.dart';
-import '../doc_state.dart';
+import '../notifiers/document_state.dart';
 
 class CourseNameInput extends StatelessWidget {
   const CourseNameInput(this.course, {super.key});
@@ -63,7 +63,7 @@ class CreditInput extends StatelessWidget {
           controller.text = '';
         }
 
-        context.read<DocState>().refresh();
+        context.read<DocumentState>().refresh();
       }
     });
 

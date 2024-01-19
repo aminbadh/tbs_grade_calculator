@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../doc_state.dart';
+import '../notifiers/document_state.dart';
 
 class DocumentResults extends StatelessWidget {
   const DocumentResults({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final document = context.watch<DocState>().document;
+    final document = context.watch<DocumentState>().document;
     final theme = Theme.of(context);
 
     final titles = ['Registered Credit', 'Earned Credit', 'GPA'];

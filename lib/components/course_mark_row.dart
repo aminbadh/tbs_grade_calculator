@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/course.dart';
-import '../doc_state.dart';
+import '../models/mark.dart';
+import '../notifiers/document_state.dart';
 
 class MarkRow extends StatelessWidget {
   const MarkRow(this.mark, this.last, {super.key, required this.delete});
@@ -82,7 +82,7 @@ class MarkTextField extends StatelessWidget {
           controller.text = '';
         }
 
-        context.read<DocState>().refresh();
+        context.read<DocumentState>().refresh();
       }
     });
 

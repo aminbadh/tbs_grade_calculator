@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -72,9 +70,4 @@ class FooterVersion extends StatelessWidget {
       ),
     );
   }
-}
-
-String getFooterMessage() {
-  final post = ['w/ Flutter', 'in 7ay 3icha'];
-  return post[Random().nextInt(post.length)];
 }
