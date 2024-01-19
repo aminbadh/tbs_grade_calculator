@@ -1,6 +1,8 @@
 import 'course.dart';
 
-const String documentsKey = 'documents';
+class DocumentDefaults {
+  static const title = 'Untitled';
+}
 
 class Document {
   late String title;
@@ -50,6 +52,20 @@ class Document {
   String toString() => '{"title": "$title", "courses": $courses}';
 }
 
+String letter(double grade) {
+  if (grade < 60) return 'F';
+  if (grade < 65) return 'D';
+  if (grade < 67) return 'D+';
+  if (grade < 70) return 'C-';
+  if (grade < 73) return 'C';
+  if (grade < 77) return 'C+';
+  if (grade < 80) return 'B-';
+  if (grade < 83) return 'B';
+  if (grade < 87) return 'B+';
+  if (grade < 90) return 'A-';
+  return 'A';
+}
+
 double gpv(String letter) {
   switch (letter) {
     case 'A':
@@ -75,8 +91,4 @@ double gpv(String letter) {
     default:
       return 0.0;
   }
-}
-
-class DocumentDefaults {
-  static const title = 'Untitled';
 }
