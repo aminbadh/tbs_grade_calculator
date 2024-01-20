@@ -20,6 +20,7 @@ class DocumentActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return ButtonBar(
       alignment: MainAxisAlignment.spaceEvenly,
+      overflowButtonSpacing: 18,
       children: [
         ElevatedButton(
           onPressed: () => _save(context.read<DocumentState>().document),
