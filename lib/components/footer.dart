@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:tbs_grade_calculator/components/course_card.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../utils.dart';
 
 class Footer extends StatelessWidget {
   const Footer(
@@ -15,33 +16,31 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return LayoutBuilder(builder: (context, constraints) {
-      return Container(
-        color: theme.colorScheme.primary.withOpacity(0.05),
-        padding: EdgeInsets.symmetric(
-          vertical: 16,
-          horizontal: constraints.maxWidth > CourseCard.width ? 36 : 24,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Text('Made with '),
-                const Icon(
-                  Icons.favorite,
-                  color: Colors.amber,
-                  size: 18,
-                ),
-                Text(' $msg'),
-              ],
-            ),
-            const FooterVersion(),
-          ],
-        ),
-      );
-    });
+    return Container(
+      color: theme.colorScheme.primary.withOpacity(0.05),
+      padding: EdgeInsets.symmetric(
+        vertical: 16,
+        horizontal: small(context) ? 24 : 36,
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Text('Made with '),
+              const Icon(
+                Icons.favorite,
+                color: Colors.amber,
+                size: 18,
+              ),
+              Text(' $msg'),
+            ],
+          ),
+          const FooterVersion(),
+        ],
+      ),
+    );
   }
 }
 

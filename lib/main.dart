@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tbs_grade_calculator/firebase_options.dart';
 
-import 'components/end_drawer.dart';
 import 'components/footer.dart';
 import 'components/navbar.dart';
 import 'notifiers/document_state.dart';
@@ -15,7 +16,10 @@ import 'screens/not_found_screen.dart';
 import 'screens/saves_screen.dart';
 import 'utils.dart';
 
-void main() {
+Future<void> main() async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const App());
 }
 
@@ -54,7 +58,6 @@ class App extends StatelessWidget {
               preferredSize: Size.fromHeight(80),
               child: Navbar(),
             ),
-            endDrawer: small(context) ? const EndDrawer() : null,
             body: s.name == null ? const NotFoundScreen() : _body(s.name!),
             bottomNavigationBar: Footer(_),
           ),
