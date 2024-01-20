@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:tbs_grade_calculator/components/course_card.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Footer extends StatelessWidget {
@@ -14,17 +15,18 @@ class Footer extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
-      color: theme.colorScheme.primary.withOpacity(0.05),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        color: theme.colorScheme.primary.withOpacity(0.05),
+        padding: EdgeInsets.symmetric(
           vertical: 16,
-          horizontal: 48,
+          horizontal: constraints.maxWidth > CourseCard.width ? 36 : 24,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const Text('Made with '),
                 const Icon(
@@ -38,8 +40,8 @@ class Footer extends StatelessWidget {
             const FooterVersion(),
           ],
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
