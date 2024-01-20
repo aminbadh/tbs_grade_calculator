@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+import '../utils.dart';
+
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final sml = small(context);
 
     return Container(
       padding: const EdgeInsets.all(8.0),
@@ -47,16 +50,18 @@ class Navbar extends StatelessWidget {
           ),
           const Spacer(),
           Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: OutlinedButton(
-              onPressed: () => Navigator.of(context).pushNamed('/saves'),
-              style: OutlinedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6),
-                ),
-              ),
-              child: const Text('Saves'),
-            ),
+            padding: EdgeInsets.only(right: sml ? 4 : 8),
+            child: sml
+                ? const EndDrawerButton()
+                : OutlinedButton(
+                    onPressed: () => Navigator.of(context).pushNamed('/saves'),
+                    style: OutlinedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                    child: const Text('Saves'),
+                  ),
           ),
         ],
       ),

@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'components/end_drawer.dart';
 import 'components/footer.dart';
 import 'components/navbar.dart';
 import 'notifiers/document_state.dart';
@@ -53,6 +54,7 @@ class App extends StatelessWidget {
               preferredSize: Size.fromHeight(80),
               child: Navbar(),
             ),
+            endDrawer: small(context) ? const EndDrawer() : null,
             body: s.name == null ? const NotFoundScreen() : _body(s.name!),
             bottomNavigationBar: Footer(_),
           ),
