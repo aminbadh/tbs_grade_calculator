@@ -53,8 +53,8 @@ class Navbar extends StatelessWidget {
           const SizedBox(width: 4),
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed('/saves'),
-            icon: const Icon(Icons.settings_rounded),
-            tooltip: 'Settings',
+            icon: const Icon(Icons.save_alt),
+            tooltip: 'Local Saves',
           ),
           if (!small(context)) const SizedBox(width: 8)
         ],
@@ -87,24 +87,11 @@ class AccountNavbarWidget extends StatelessWidget {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return emptyWidget;
               }
-              return small(context)
-                  ? IconButton(
-                      onPressed: onPressed,
-                      icon: const Icon(Icons.account_circle),
-                      tooltip: 'Sign In',
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(right: 16),
-                      child: OutlinedButton(
-                        onPressed: onPressed,
-                        style: OutlinedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                        child: const Text('Sign In'),
-                      ),
-                    );
+              return IconButton(
+                onPressed: onPressed,
+                icon: const Icon(Icons.account_circle),
+                tooltip: 'Sign In',
+              );
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text(snapshot.error.toString())));
@@ -112,9 +99,9 @@ class AccountNavbarWidget extends StatelessWidget {
             }
           } else {
             return IconButton(
-              onPressed: () => FirebaseAuth.instance.signOut(),
+              onPressed: () => Navigator.of(context).pushNamed('/account'),
               icon: const Icon(Icons.account_circle),
-              tooltip: 'Sign Out',
+              tooltip: 'Account',
             );
           }
         });

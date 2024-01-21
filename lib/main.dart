@@ -11,6 +11,7 @@ import 'components/footer.dart';
 import 'components/navbar.dart';
 import 'notifiers/document_state.dart';
 import 'models/document.dart';
+import 'screens/account_screen.dart';
 import 'screens/calculator_screen.dart';
 import 'screens/not_found_screen.dart';
 import 'screens/saves_screen.dart';
@@ -45,6 +46,7 @@ class App extends StatelessWidget {
   Widget _body(String r) => switch (r) {
         '/' => _calculator(),
         '/saves' => const SavesScreen(),
+        '/account' => const AccountScreen(),
         _ => FutureBuilder(
             future: _identify(r.substring(1)),
             builder: (_, s) => s.data ?? emptyWidget),
