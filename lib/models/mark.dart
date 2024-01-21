@@ -22,6 +22,8 @@ class Mark {
   double get getMax => max ?? MarkDefaults.max;
   double get getWeight => weight ?? MarkDefaults.weight;
 
+  Map<String, dynamic> toMap() => {'mark': mark, 'max': max, 'weight': weight};
+
   @override
   String toString() => '{"mark": $mark, "max": $max, "weight": $weight}';
 }

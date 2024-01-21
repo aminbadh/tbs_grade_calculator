@@ -48,6 +48,9 @@ class Document {
     return gpa / registeredCredit;
   }
 
+  Map<String, dynamic> toMap() =>
+      {'title': title, 'courses': courses.map((e) => e.toMap()).toList()};
+
   @override
   String toString() => '{"title": "$title", "courses": $courses}';
 }

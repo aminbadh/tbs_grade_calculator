@@ -1,3 +1,7 @@
+import 'dart:convert';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,9 +15,19 @@ class DocumentActions extends StatelessWidget {
     super.key,
   });
 
-  void _save(Document document) async {
+  void _localSave(Document document) async {
     final key = "${document.title}.${DateTime.now().millisecondsSinceEpoch}";
-    (await SharedPreferences.getInstance()).setString(key, document.toString());
+    (await SharedPreferences.getInstance())
+        .setString(key, jsonEncode(document.toMap()));
+  }
+
+  void _cloudSave(Document document) async {
+    final _ = await FirebaseFirestore.instance.collection('documents').add({
+      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'owner': FirebaseAuth.instance.currentUser!.uid,
+      'document': document.toMap(),
+      'public': false,
+    });
   }
 
   @override
@@ -23,8 +37,12 @@ class DocumentActions extends StatelessWidget {
       overflowButtonSpacing: 18,
       children: [
         ElevatedButton(
-          onPressed: () => _save(context.read<DocumentState>().document),
-          child: const Text('Save'),
+          onPressed: () => _localSave(context.read<DocumentState>().document),
+          child: const Text('Local Save'),
+        ),
+        ElevatedButton(
+          onPressed: () => _cloudSave(context.read<DocumentState>().document),
+          child: const Text('Cloud Save'),
         ),
         if (kDebugMode)
           ElevatedButton(
@@ -38,10 +56,6 @@ class DocumentActions extends StatelessWidget {
             onPressed: context.read<DocumentState>().refresh,
             child: const Text('Refresh'),
           ),
-        ElevatedButton(
-          onPressed: () {},
-          child: const Text('Share'),
-        ),
       ],
     );
   }

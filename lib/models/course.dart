@@ -39,6 +39,12 @@ class Course {
     return total / weights * 100;
   }
 
+  Map<String, dynamic> toMap() => {
+        'name': name,
+        'credit': credit,
+        'marks': marks.map((e) => e.toMap()).toList()
+      };
+
   @override
   String toString() => '{"name": "$name", "credit": $credit, "marks": $marks}';
 }

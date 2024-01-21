@@ -1,12 +1,13 @@
 name: tbs_grade_calculator
 description: A new Flutter project.
 publish_to: 'none'
-version: 1.0.1
+version: 1.1.0
 
 environment:
   sdk: '>=3.2.3 <4.0.0'
 
 dependencies:
+  cloud_firestore: ^4.14.0
   firebase_auth: ^4.16.0
   firebase_core: ^2.24.2
   flutter:

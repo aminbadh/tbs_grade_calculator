@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -34,13 +35,22 @@ class App extends StatelessWidget {
 
   Future<Widget> _identify(String id) async {
     if (usedKeys.contains(id)) return const NotFoundScreen();
+
     final document = (await SharedPreferences.getInstance()).getString(id);
 
-    if (document == null) {
-      return const NotFoundScreen();
-    } else {
+    if (document != null) {
       return _calculator(Document.fromJson(jsonDecode(document)));
     }
+
+    final data =
+        (await FirebaseFirestore.instance.collection('documents').doc(id).get())
+            .data();
+
+    if (data != null) {
+      return _calculator(Document.fromJson(data['document']));
+    }
+
+    return const NotFoundScreen();
   }
 
   Widget _body(String r) => switch (r) {
