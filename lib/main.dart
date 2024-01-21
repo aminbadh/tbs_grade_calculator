@@ -42,12 +42,17 @@ class App extends StatelessWidget {
       return _calculator(Document.fromJson(jsonDecode(document)));
     }
 
-    final data =
-        (await FirebaseFirestore.instance.collection('documents').doc(id).get())
-            .data();
+    final query = FirebaseFirestore.instance.collection('documents').doc(id);
 
-    if (data != null) {
-      return _calculator(Document.fromJson(data['document']));
+    try {
+      final data = (await query.get()).data();
+
+      if (data != null) {
+        return _calculator(Document.fromJson(data['document']));
+      }
+    } catch (e) {
+      // permission-denied
+      return const NotFoundScreen();
     }
 
     return const NotFoundScreen();

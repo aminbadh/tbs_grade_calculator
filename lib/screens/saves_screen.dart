@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tbs_grade_calculator/utils.dart';
 
-import '../components/no_saves_found.dart';
-import '../components/snapshot_error.dart';
+import '../components/error_display.dart';
 import '../models/document.dart';
 
 class SavesScreen extends StatefulWidget {
@@ -28,7 +27,7 @@ class _SavesScreenState extends State<SavesScreen> {
               (await SharedPreferences.getInstance()).remove(key);
               setState(() {});
             },
-            icon: const Icon(Icons.delete_forever),
+            icon: const Icon(Icons.delete),
           ),
           onTap: () => Navigator.of(context).pushNamed('/$key'),
         );
@@ -50,7 +49,12 @@ class _SavesScreenState extends State<SavesScreen> {
           } else {
             final keys = data.getKeys()..removeAll(usedKeys);
             if (keys.isEmpty) {
-              return const NoSavesFound();
+              return Center(
+                child: Text(
+                  'No saves found',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              );
             } else {
               return ListView(
                 padding: const EdgeInsets.all(24.0),

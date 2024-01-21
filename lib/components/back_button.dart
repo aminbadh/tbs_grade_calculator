@@ -13,7 +13,6 @@ class StackBackButton extends StatelessWidget {
         elevation: 2,
         borderRadius: BorderRadius.circular(24),
         child: IconButton(
-          //tooltip: 'Back',
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.arrow_back_rounded),
         ),
