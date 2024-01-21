@@ -50,7 +50,7 @@ class Navbar extends StatelessWidget {
           ),
           const Spacer(),
           const AccountNavbarWidget(),
-          const SizedBox(width: 4),
+          SizedBox(width: small(context) ? 4 : 8),
           IconButton(
             onPressed: () => Navigator.of(context).pushNamed('/saves'),
             icon: const Icon(Icons.save_alt),
@@ -66,18 +66,8 @@ class Navbar extends StatelessWidget {
 class AccountNavbarWidget extends StatelessWidget {
   const AccountNavbarWidget({super.key});
 
-  void _signIn(ScaffoldMessengerState scaffoldMessenger) async {
-    try {
-      await FirebaseAuth.instance.signInWithPopup(GoogleAuthProvider());
-    } catch (e) {
-      scaffoldMessenger.showSnackBar(SnackBar(content: Text(e.toString())));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    onPressed() => _signIn(ScaffoldMessenger.of(context));
-
     return StreamBuilder(
         stream: FirebaseAuth.instance.userChanges(),
         builder: (context, snapshot) {
@@ -88,13 +78,15 @@ class AccountNavbarWidget extends StatelessWidget {
                 return emptyWidget;
               }
               return IconButton(
-                onPressed: onPressed,
+                onPressed: () => signIn(ScaffoldMessenger.of(context)),
                 icon: const Icon(Icons.account_circle),
                 tooltip: 'Sign In',
               );
             } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(snapshot.error.toString())));
+              showSnackbar(
+                ScaffoldMessenger.of(context),
+                snapshot.error.toString(),
+              );
               return emptyWidget;
             }
           } else {
