@@ -63,7 +63,7 @@ class CalculatorScreen extends StatelessWidget {
                     ),
                     const DocumentResults(),
                     const DocumentActions(),
-                    const SizedBox(height: 72),
+                    const SizedBox(height: 84),
                   ],
                 );
               }),
