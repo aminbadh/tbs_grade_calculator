@@ -50,3 +50,6 @@ firebase.json
 
 # Windows is a secondary dev environment
 windows/
+
+# Temporary files/notes
+.temp/
