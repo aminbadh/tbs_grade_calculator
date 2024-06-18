@@ -57,6 +57,7 @@ class AccountScreen extends StatelessWidget {
     final nameDisplay = Text(
       user.displayName ?? 'Ya Chsmk',
       style: Theme.of(context).textTheme.displayMedium,
+      overflow: TextOverflow.ellipsis,
     );
 
     return LayoutBuilder(builder: (context, constraints) {
@@ -181,7 +182,7 @@ class _CloudSavedDocumentsState extends State<CloudSavedDocuments> {
 
           return ListTile(
             title: Text(title),
-            subtitle: Text(date.toString()),
+            subtitle: Text(formatDate(date)),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -194,6 +195,7 @@ class _CloudSavedDocumentsState extends State<CloudSavedDocuments> {
                     });
                   },
                   icon: const Icon(Icons.delete),
+                  tooltip: 'Delete',
                 ),
                 const SizedBox(width: 24),
                 IconButton(

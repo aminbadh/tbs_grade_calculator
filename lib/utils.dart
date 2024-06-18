@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'components/course_card.dart';
 
@@ -32,4 +33,8 @@ Future<UserCredential?> signIn([ScaffoldMessengerState? messenger]) async {
     if (messenger != null) showSnackbar(messenger, e.toString());
     return null;
   }
+}
+
+String formatDate(DateTime _) {
+  return DateFormat('EEE, d/M/y').format(_);
 }

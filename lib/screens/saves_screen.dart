@@ -21,13 +21,14 @@ class _SavesScreenState extends State<SavesScreen> {
         final mil = _mil(key), title = key.replaceAll('.$mil', '');
         return ListTile(
           title: Text(title.isEmpty ? DocumentDefaults.title : title),
-          subtitle: Text(DateTime.fromMillisecondsSinceEpoch(mil).toString()),
+          subtitle: Text(formatDate(DateTime.fromMillisecondsSinceEpoch(mil))),
           trailing: IconButton(
             onPressed: () async {
               (await SharedPreferences.getInstance()).remove(key);
               setState(() {});
             },
             icon: const Icon(Icons.delete),
+            tooltip: 'Delete',
           ),
           onTap: () => Navigator.of(context).pushNamed('/$key'),
         );
