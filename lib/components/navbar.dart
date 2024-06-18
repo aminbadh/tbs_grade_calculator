@@ -13,7 +13,7 @@ class Navbar extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8.0),
       decoration: BoxDecoration(
-        color: theme.colorScheme.background,
+        color: theme.colorScheme.surface,
         boxShadow: [
           BoxShadow(
             color: theme.colorScheme.shadow.withOpacity(0.25),

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'components/course_card.dart';
 
 Color scaffoldBackgroundColor(BuildContext context) => Color.alphaBlend(
-      Theme.of(context).colorScheme.onBackground.withOpacity(0.015),
-      Theme.of(context).colorScheme.background,
+      Theme.of(context).colorScheme.onSurface.withOpacity(0.015),
+      Theme.of(context).colorScheme.surface,
     );
 
 const Set<String> usedKeys = {'documents'};

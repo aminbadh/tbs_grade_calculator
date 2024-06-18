@@ -34,7 +34,7 @@ class DocumentTitle extends StatelessWidget {
           hintText: DocumentDefaults.title,
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: theme.colorScheme.onBackground.withOpacity(0.12),
+              color: theme.colorScheme.onSurface.withOpacity(0.12),
               width: 0,
             ),
           ),

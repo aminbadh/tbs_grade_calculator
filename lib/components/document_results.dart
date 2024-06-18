@@ -23,10 +23,10 @@ class DocumentResults extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          color: theme.colorScheme.background.withOpacity(0.7),
+          color: theme.colorScheme.surface.withOpacity(0.7),
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: theme.colorScheme.onBackground.withOpacity(0.26),
+            color: theme.colorScheme.onSurface.withOpacity(0.26),
           ),
         ),
         child: Column(

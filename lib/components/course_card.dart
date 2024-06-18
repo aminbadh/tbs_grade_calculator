@@ -27,10 +27,10 @@ class CourseCard extends StatelessWidget {
       child: Container(
         constraints: const BoxConstraints(maxWidth: CourseCard.width),
         decoration: BoxDecoration(
-          color: theme.colorScheme.background,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: theme.colorScheme.onBackground.withOpacity(0.26),
+            color: theme.colorScheme.onSurface.withOpacity(0.26),
             width: 0,
           ),
         ),
@@ -50,7 +50,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
             Divider(
-              color: theme.colorScheme.onBackground.withOpacity(0.12),
+              color: theme.colorScheme.onSurface.withOpacity(0.12),
               height: 1,
             ),
             Padding(
@@ -91,7 +91,7 @@ class CourseCard extends StatelessWidget {
               ),
             ),
             Divider(
-              color: theme.colorScheme.onBackground.withOpacity(0.12),
+              color: theme.colorScheme.onSurface.withOpacity(0.12),
               height: 1,
             ),
             Padding(
