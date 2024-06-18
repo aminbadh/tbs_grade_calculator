@@ -90,7 +90,8 @@ class App extends StatelessWidget {
       onGenerateRoute: (s) => _onGenerateRoute(s, msg),
       theme: ThemeData(
         textTheme: GoogleFonts.montserratTextTheme(),
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amber),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.amber, surface: Colors.white),
       ),
     );
   }
