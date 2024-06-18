@@ -1,7 +1,7 @@
 name: tbs_grade_calculator
 description: The TBS Grade Calculator is a student-built app for calculating grades, GPAs, and sharing results. Built with a focus on usability and sharing, it empowers students to manage their academic progress collaboratively.  Open-sourced & community-driven.
 publish_to: 'none'
-version: 1.3.2
+version: 1.3.3
 
 environment:
   sdk: '>=3.2.3 <4.0.0'

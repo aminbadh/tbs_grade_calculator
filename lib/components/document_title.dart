@@ -25,20 +25,23 @@ class DocumentTitle extends StatelessWidget {
     });
 
     return IntrinsicWidth(
-      child: TextField(
-        textAlign: TextAlign.center,
-        style: theme.textTheme.displaySmall,
-        controller: controller,
-        focusNode: focus,
-        decoration: InputDecoration(
-          hintText: DocumentDefaults.title,
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: theme.colorScheme.onSurface.withOpacity(0.12),
-              width: 0,
+      child: Container(
+        constraints: const BoxConstraints(minWidth: 180),
+        child: TextField(
+          textAlign: TextAlign.center,
+          style: theme.textTheme.displaySmall,
+          controller: controller,
+          focusNode: focus,
+          decoration: InputDecoration(
+            hintText: DocumentDefaults.title,
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                color: theme.colorScheme.onSurface.withOpacity(0.12),
+                width: 0,
+              ),
             ),
+            border: const OutlineInputBorder(),
           ),
-          border: const OutlineInputBorder(),
         ),
       ),
     );
